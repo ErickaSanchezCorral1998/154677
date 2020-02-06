@@ -6,17 +6,24 @@
       <h6>Welcome Back, Please login</h6>
       <h6>to your account</h6>
     </div>
+    <br>
+    <br>
     <div class="col form-group">
       <input
         type="email"
         placeholder="Correo"
-        class="form-control mb-2"
+        class="form-control mb-2 "
+        v-model="user.email"
       >
       <input
         type="password"
         placeholder="Contraseña"
         class="form-control mb-2"
+        v-model="user.password"
+        @keypress.enter="login"
       >
+      <!--Handlerbars templating -  pasar datos de js a html-->
+      <!-- {{user.password}}-->
     </div>
     <div class="form-group m5">
       <div class="row">
@@ -31,7 +38,10 @@
     <div class="form-group">
       <div class="row">
         <div class="col">
-          <button class="btn btn-purple btn-dark btn-block">Login</button>
+          <button
+            class="btn btn-purple btn-dark btn-block"
+            @click="login"
+          >Login</button>
         </div>
         <div class="col">
           <button class="btn  btn-light btn-block">Sign up</button>
@@ -43,7 +53,43 @@
 </template>
 <script lang="js">
 export default {
-  name: 'LoginForm'
+  name: 'LoginForm',
+  data () { // Variables y metodos(funciones que vamos  a utilizar)
+    return {
+      user: {
+        email: ' ',
+        password: ' '
+      },
+      userEmail: ' ',
+      userPassword: ' '
+    }
+  },
+  beforeCreate () {
+    console.log('Estoy en un beforecreated')
+  },
+  created () {
+    console.log(`Estoy en un created ${this.user}`)
+  },
+  mounted () {
+    console.log(`Estoy en monted ${this.user}`)
+    console.log(`Estoy en  ${this.$route.name}`)// route acceder información
+  },
+  methods: {
+    login () {
+      // Esta variable es de uso local de nuestro método
+      let user = {
+        email: 'esto es local'
+      }
+      console.log('Soy un login')
+      console.log('user local: ' + user.email)
+      console.log('user from data:' + this.user.email)
+      console.log(this.user.password)
+      setTimeout(() => {
+        // Despues de iniciar sesion nos envia a la página de about
+        this.$router.push({ name: 'about' })// Rouer para navegar entre rutas router para mover
+      }, 1000)
+    }
+  }
 }
 </script>
 <style lang="scss">

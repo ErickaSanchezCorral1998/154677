@@ -7,7 +7,7 @@
         <div class="col">
           <img
             src="@/assets/pexels-photo-1034662.jpeg"
-            height="90%"
+            height="80%"
           />
         </div>
         <div class="col">
