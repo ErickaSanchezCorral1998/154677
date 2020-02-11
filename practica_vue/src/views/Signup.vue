@@ -1,16 +1,16 @@
-<template class="fondo">
+<template>
   <!--Container nos da un ancho maximo de 1140px-->
   <div class="login container">
-    <div class="card">
-      <div class="row  no-gutters">
+    <div class="card p-3">
+      <div class="row">
         <div class="col">
           <img
             src="@/assets/pexels-photo-1034662.jpeg"
-            class="card-img loginImg"
+            height="80%"
           />
         </div>
         <div class="col">
-          <LoginForm class="loginForm"></LoginForm>
+          <SignupForm></SignupForm>
         </div>
       </div>
     </div>
@@ -19,22 +19,11 @@
 
 <script lang="js">
 // @ is an alias to /src
-import LoginForm from '@/components/LoginForm'
+import SignupForm from '@/components/SignupForm'
 export default {
   name: 'login',
   components: {
-    LoginForm
+    SignupForm
   }
 }
 </script>
-<style lang="scss">
-.loginForm {
-  margin: 60px;
-}
-.loginImg {
-  height: 80vh;
-}
-.card {
-  height: 80vh;
-}
-</style>

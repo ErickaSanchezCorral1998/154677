@@ -10,8 +10,14 @@
     <br>
     <div class="col form-group">
       <input
+        type="text"
+        placeholder="User"
+        class="form-control mb-2 "
+        v-model="user.userName"
+      >
+      <input
         type="email"
-        placeholder="Email address"
+        placeholder="Email"
         class="form-control mb-2 "
         v-model="user.email"
       >
@@ -19,35 +25,21 @@
         type="password"
         placeholder="Contraseña"
         class="form-control mb-2"
+      >
+      <input
+        type="password"
+        placeholder="Raetype contraseña"
+        class="form-control mb-2"
         v-model="user.password"
         @keypress.enter="login"
       >
       <!--Handlerbars templating -  pasar datos de js a html-->
       <!-- {{user.password}}-->
     </div>
-    <div class="form-group m5">
-      <div class="row">
-        <div class="col text-left">
-          <input type="checkbox" />Remember me
-        </div>
-        <div class="col text-right">
-          <small>Forgot password?</small>
-        </div>
-      </div>
-    </div>
     <div class="form-group">
       <div class="row">
         <div class="col">
-          <button
-            class="btn btn-purple btn-dark btn-block"
-            @click="login"
-          >Login</button>
-        </div>
-        <div class="col">
-          <button
-            class="btn  btn-light btn-block"
-            @click="signup"
-          >Sign up</button>
+          <button class="btn  btn-signup btn-light btn-block">Sign up</button>
         </div>
       </div>
     </div>
@@ -60,22 +52,13 @@ export default {
   data () { // Variables y metodos(funciones que vamos  a utilizar)
     return {
       user: {
+        userName: ' ',
         email: ' ',
         password: ' '
       },
       userEmail: ' ',
       userPassword: ' '
     }
-  },
-  beforeCreate () {
-    console.log('Estoy en un beforecreated')
-  },
-  created () {
-    console.log(`Estoy en un created ${this.user}`)
-  },
-  mounted () {
-    console.log(`Estoy en monted ${this.user}`)
-    console.log(`Estoy en  ${this.$route.name}`)// route acceder información
   },
   methods: {
     login () {
@@ -91,18 +74,12 @@ export default {
         // Despues de iniciar sesion nos envia a la página de about
         this.$router.push({ name: 'about' })// Rouer para navegar entre rutas router para mover
       }, 1000)
-    },
-    signup () {
-      setTimeout(() => {
-        // Despues de iniciar sesion nos envia a la página de about
-        this.$router.push({ name: 'signup' })// Rouer para navegar entre rutas router para mover
-      }, 1000)
     }
   }
 }
 </script>
 <style lang="scss">
-.btn-purple {
+.btn-signup {
   background: darkviolet;
   &:hover,
   &:active {
