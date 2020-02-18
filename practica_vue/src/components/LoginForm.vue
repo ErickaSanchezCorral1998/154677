@@ -1,11 +1,11 @@
 <template>
-  <section>
+  <section class="fondoForm">
     <div class="text-left">
-      <h3>We are <b>aroma</b>
+      <h3 class="titulo">We are <b class="negrita">aroma</b>
       </h3>
       <br>
-      <h6>Welcome Back, Please login</h6>
-      <h6>to your account</h6>
+      <h6 class="titulo2">Welcome Back, Please login</h6>
+      <h6 class="titulo2">to your account</h6>
     </div>
     <br>
     <br>
@@ -30,10 +30,17 @@
     <div class="form-group m5">
       <div class="row">
         <div class="col text-left">
-          <input type="checkbox" />Remember me
+          <input
+            id="Rem"
+            type="checkbox"
+          >
+          <label
+            for="Rem"
+            class="input-rem"
+          >Remember me</label>
         </div>
         <div class="col text-right">
-          <small>Forgot password?</small>
+          <button class="btn btn-Forgot">Forgot password?</button>
         </div>
       </div>
     </div>
@@ -42,13 +49,13 @@
       <div class="row">
         <div class="col">
           <button
-            class="btn btn-purple btn-dark btn-block"
+            class="btn btn-pink btn-block"
             @click="login"
           >Login</button>
         </div>
         <div class="col">
           <button
-            class="btn  btn-light btn-block"
+            class="btn btn-pink2 btn-block"
             @click="signup"
           >Sign up</button>
         </div>
@@ -64,11 +71,9 @@ export default {
   data () { // Variables y metodos(funciones que vamos  a utilizar)
     return {
       user: {
-        email: 'mail@gmail.com',
-        password: '123456 '
-      },
-      userEmail: ' ',
-      userPassword: ' '
+        email: '',
+        password: ''
+      }
     }
   },
   beforeCreate () {
@@ -78,47 +83,90 @@ export default {
     console.log(`Estoy en un created ${this.user}`)
   },
   mounted () {
-    Auth.signup(this.user)
     console.log(`Estoy en monted ${this.user}`)
     console.log(`Estoy en  ${this.$route.name}`)// route acceder información
   },
   methods: {
     login () {
       // Esta variable es de uso local de nuestro método
-      let user = {
+      /* let user = {
         email: 'esto es local'
-      }
+      } */
       console.log('Soy un login')
-      console.log('user local: ' + user.email)
+      // console.log('user local: ' + user.email)
       console.log('user from data:' + this.user.email)
       console.log(this.user.password)
-      setTimeout(() => {
+      Auth.logIn(this.user)
+      if (this.user.email === ' ' || this.user.password === ' ') {
+        console.log('error')
+      } else {
+        setTimeout(() => {
         // Despues de iniciar sesion nos envia a la página de about
-        this.$router.push({ name: 'about' })// Rouer para navegar entre rutas router para mover
-      }, 1000)
+        // this.$router.push({ name: 'about' })// Router para navegar entre rutas route para mover
+          console.log('Hola')
+        }, 1000)
+      }
     },
     signup () {
       setTimeout(() => {
-        // Despues de iniciar sesion nos envia a la página de about
-        this.$router.push({ name: 'signup' })// Rouer para navegar entre rutas router para mover
+        this.$router.push({ name: 'signup' })
       }, 1000)
     }
   }
 }
 </script>
 <style lang="scss">
-.btn-purple {
-  background: darkviolet;
-  &:hover,
-  &:active {
-    background: rgb(43, 4, 43);
+//Letras
+.titulo {
+  color: #eb7b7e;
+}
+.negrita {
+  color: #cc7073;
+}
+.titulo2 {
+  color: #f6bdbe;
+  font-size: 15px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+//Botones
+.btn.btn-pink {
+  background: #ff6c70;
+  color: white;
+  &:hover {
+    color: white;
+    background-color: #d3595d;
   }
 }
+.btn.btn-pink2 {
+  background-color: #fdcdd0;
+  color: white;
+  &:hover {
+    background-color: #dbb1b4;
+    color: white;
+  }
+}
+#Rem {
+  margin-top: 10px;
+}
+.input-rem {
+  color: #ffd7da;
+}
+.btn.btn-Forgot {
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 0px;
+  color: #dddcdf;
+  &:hover {
+    color: #b9b8bb;
+  }
+}
+//Input
 .mb-2 {
-  border-left: 2px solid;
+  color: #a8a7ad;
+
   &:hover,
   &:active {
-    border-left: 2px solid rgb(55, 5, 134);
+    border-bottom: 2px solid #fe6c72;
   }
 }
 </style>

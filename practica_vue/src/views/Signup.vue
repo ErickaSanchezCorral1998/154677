@@ -1,16 +1,16 @@
 <template>
-  <div :style="{'background-color':'black', 'background-size': 'cover', 'height':'88.7vh'}">
+  <div :style="{'background-color':'#fefcfd', 'background-size': 'cover', 'height':'88.7vh'}">
     <div class="login container">
       <div class="card">
         <div class="row no-gutters">
-          <div class="col-sm-6">
+          <div class="col-md-6">
+            <SignupForm class="signupForm"></SignupForm>
+          </div>
+          <div class="col-md-6">
             <img
-              src="@/assets/pexels-photo-1294671.jpeg"
+              src="@/assets/pexels-photo-2791043.jpeg"
               class="card-img loginImg"
             />
-          </div>
-          <div class="col-sm-6">
-            <SignupForm class="signupForm"></SignupForm>
           </div>
         </div>
       </div>
@@ -22,7 +22,7 @@
 // @ is an alias to /src
 import SignupForm from '@/components/SignupForm'
 export default {
-  name: 'login',
+  name: 'signup',
   components: {
     SignupForm
   }

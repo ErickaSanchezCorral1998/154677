@@ -1,11 +1,11 @@
 <template>
   <section>
     <div class="text-left">
-      <h3>We are <b>aroma</b>
+      <h3 class="titulo">We are <b class="negrita">aroma</b>
       </h3>
       <br>
-      <h6>Welcome, Please register</h6>
-      <h6>your account</h6>
+      <h6 class="titulo2">Welcome, Please register</h6>
+      <h6 class="titulo2">your account</h6>
     </div>
     <br>
     <br>
@@ -14,7 +14,7 @@
         type="text"
         placeholder="User"
         class="form-control mb-2 "
-        v-model="userName"
+        v-model="user.nombre"
       >
       <input
         type="email"
@@ -26,8 +26,8 @@
         type="password"
         placeholder="Password"
         class="form-control mb-2"
-        v-model="password"
-        @keypress.enter="login"
+        v-model="user.password"
+        @keypress.enter="signup"
       >
       <br>
       <div class="form-group">
@@ -48,7 +48,7 @@
       <div class="row">
         <div class="col">
           <button
-            class="btn btn-secondary btn-block"
+            class="btn btn-pink btn-block"
             @click="signup"
           >Sign up</button>
         </div>
@@ -60,15 +60,14 @@
 <script lang="js">
 import Auth from '@/config/auth.js'
 export default {
-  name: 'LoginForm',
+  name: 'SignupForm',
   data () { // Variables y metodos(funciones que vamos  a utilizar)
     return {
       user: {
-        email: 'mail@mail.com ',
-        password: '123456 '
-      },
-      userEmail: ' ',
-      userPassword: ' '
+        nombre: '',
+        email: '',
+        password: ''
+      }
     }
   },
   beforeCreate () {
@@ -78,25 +77,29 @@ export default {
     console.log(`Estoy en un created ${this.user}`)
   },
   mounted () {
-    Auth.signup(this.user)
     console.log(`Estoy en monted ${this.user}`)
-    console.log(`Estoy en  ${this.$route.name}`)// route acceder información
+    console.log(`Estoy en  ${this.$route.name}`)
   },
   methods: {
     signup () {
-      setTimeout(() => {
-        this.$router.push({ name: 'about' })
-      }, 1000)
+      Auth.signUp(this.user)
+      if (this.user.nombre === ' ' || this.user.email === ' ' || this.user.password === ' ') {
+        console.log('error')
+      } else {
+        setTimeout(() => {
+          this.$router.push({ name: 'about' })
+        }, 1000)
+      }
     }
   }
 }
 </script>
 <style lang="scss">
 .loginLink {
-  color: rgb(46, 5, 63);
+  color: #ffd7da;
   &:hover,
   &:active {
-    color: rgb(161, 10, 161);
+    color: #ceaeb0;
   }
 }
 </style>
