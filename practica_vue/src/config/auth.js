@@ -1,5 +1,16 @@
 import fireApp from './_firebase'
+import router from '@/router'
 export default {
+  logOut () {
+    fireApp.auth().signOut()
+  },
+  checkUser () {
+    let user = fireApp.auth().currentUser
+    if (user) {
+      return user
+    }
+    return null
+  },
   signUp (data) {
     if (data.nombre === ' ' || data.email === ' ' || data.password === ' ') {
       return alert('Todos los campos son obligatorios')
@@ -21,7 +32,9 @@ export default {
       return alert('Favor de ingresar un correo y contraseña')
     }
     fireApp.auth().signInWithEmailAndPassword(data.email, data.password).then((result) => {
+      console.log(result)
       console.log('Entraste')
+      router.push({ name: 'about' })
     }).catch((err) => {
       console.table(err)
       return alert('Favor de ingresar un correo y contraseña correcta')

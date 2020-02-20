@@ -87,7 +87,7 @@ export default {
         console.log('error')
       } else {
         setTimeout(() => {
-          this.$router.push({ name: 'about' })
+        //  this.$router.push({ name: 'about' })
         }, 1000)
       }
     }
