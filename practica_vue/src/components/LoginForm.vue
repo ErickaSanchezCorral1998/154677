@@ -97,15 +97,6 @@ export default {
       console.log('user from data:' + this.user.email)
       console.log(this.user.password)
       Auth.logIn(this.user)
-      if (this.user.email === ' ' || this.user.password === ' ') {
-        console.log('error')
-      } else {
-        setTimeout(() => {
-        // Despues de iniciar sesion nos envia a la página de about
-        // this.$router.push({ name: 'about' })// Router para navegar entre rutas route para mover
-          console.log('Hola')
-        }, 1000)
-      }
     },
     signup () {
       setTimeout(() => {

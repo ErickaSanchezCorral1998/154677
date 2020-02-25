@@ -83,13 +83,6 @@ export default {
   methods: {
     signup () {
       Auth.signUp(this.user)
-      if (this.user.nombre === ' ' || this.user.email === ' ' || this.user.password === ' ') {
-        console.log('error')
-      } else {
-        setTimeout(() => {
-        //  this.$router.push({ name: 'about' })
-        }, 1000)
-      }
     }
   }
 }
