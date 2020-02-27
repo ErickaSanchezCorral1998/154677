@@ -92,11 +92,21 @@ export default {
       /* let user = {
         email: 'esto es local'
       } */
-      console.log('Soy un login')
+      // console.log('Soy un login')
       // console.log('user local: ' + user.email)
-      console.log('user from data:' + this.user.email)
-      console.log(this.user.password)
-      Auth.logIn(this.user)
+      // console.log('user from data:' + this.user.email)
+      Auth.logIn(this.user).catch(error => {
+        console.log(error.code, error.message)
+        if (error.code === 'auth/invalid-email') {
+          alert('Correo no válido.')
+        } else if (error.code === 'auth/user-disabled') {
+          alert('Usuario desahabilitado.')
+        } else if (error.code === 'auth/user-not-found') {
+          alert('Usuario no encontrado')
+        } else {
+          alert(error.message)
+        }
+      })
     },
     signup () {
       setTimeout(() => {

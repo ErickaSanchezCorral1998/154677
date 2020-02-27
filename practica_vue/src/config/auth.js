@@ -29,17 +29,16 @@ export default {
     })
     console.log(data)
   },
-  logIn (data) {
+  async logIn (data) {
     if (data.email === ' ' || data.password === ' ') {
       return alert('Favor de ingresar un correo y contraseña')
     }
-    fireApp.auth().signInWithEmailAndPassword(data.email, data.password).then((result) => {
+    await fireApp.auth().signInWithEmailAndPassword(data.email, data.password).then((result) => {
       console.log(result)
-      console.log('Entraste')
       router.push({ name: 'profile' })
     }).catch((err) => {
-      console.table(err)
-      return alert('Favor de ingresar un correo y contraseña correcta')
+      // Regresamos el error
+      return Promise.reject(err)
     })
     console.log(data)
   }
