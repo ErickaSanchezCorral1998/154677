@@ -1,33 +1,45 @@
 <template >
   <!--Container nos da un ancho maximo de 1140px-->
   <div :style="{'background-color':'#fefcfd', 'background-size': 'cover', 'height':'88.7vh'}">
-    <div class="container">
-      <div
-        class="card"
-        style="border-color: #ffebeb"
-      >
-        <div class="row no-gutters">
-           <div class="col-md-4 columnaIzq">
-            <img class="profilePhoto" src="@/assets/profile.png"/>
+    <div class="cointainer containerProfile">
+      <div class="card  text-white">
+  <img id="coverImgHeader" src="@/assets/pexels-photo-3576112.jpeg" class="card-img">
+  <div class="card-img-overlay">
+     <div class="col-12">
+             <h1 class="titulo1"><b>User profile</b></h1>
+             <br>
+             <br>
+            <img  class="profilePhoto mx-auto" :src="user.photo"/>
             <br>
             <br>
-            <input
-        type="text"
-        placeholder="User"
-        class="form-control mb-2 nameUser text-center"
-         v-model="user.nombre"
-      >
-      <button class="btn btn-salir" @click="logout">Log Out</button>
+          <label class="mx-auto nombreUsuario">{{user.nombre}}</label>
+          <br>
+          <label class="mx-auto correoUsuario">{{user.emailUser}}</label>
+          <br>
+          <br>
+          <button class="btn btn-salir" @click="logout">Log Out</button>
           </div>
-          <div class="col-md-6 columnaDer ">
-          <h1 class="titulo">User profile</h1>
+  </div>
+
+        <div class="row">
+        <div class="col-md-6  mx-auto ">
+          <h1 class="tituloU">Update profile</h1>
           <div class="fondoInfo">
+              <div class="row">
+              <div class="col-3">
+                <span class="spanText">Name</span>
+              </div>
+              <div class="col-9">
+              <input  id="inputProfile" type="text" placeholder="User" class="form-control mb-2 nameUser text-center"
+         v-model="user.nombre">
+              </div>
+            </div>
             <div class="row">
               <div class="col-3">
                 <span class="spanText">Email</span>
               </div>
               <div class="col-9">
-                <input type="text" v-model="user.emailUser" class="form-control text-center" >
+                <input  id="inputProfile" type="text" v-model="user.emailUser" class="form-control text-center" >
               </div>
             </div>
             <br>
@@ -36,7 +48,7 @@
                 <span class="spanText">Phone number</span>
               </div>
               <div class="col-9">
-                 <input type="text" v-model="user.phoneNumber" class="form-control text-center" >
+                 <input  id="inputProfile" type="text" v-model="user.phoneNumber" class="form-control text-center" >
               </div>
             </div>
             <br>
@@ -45,16 +57,15 @@
                 <span class="spanText">Photo URL</span>
               </div>
               <div class="col-9">
-                <input type="text" v-model="user.photo" class="form-control text-center" >
+                <input type="text" v-model="user.photo" id="inputProfile" class="form-control text-center" >
               </div>
             </div>
             <br>
             <div class=" text-right">
-             <button class="btn btn-pink " @click="updateProfile">Update profile</button>
+             <button class="btn btn-update " @click="updateProfile">Update profile</button>
              </div>
           </div>
-
-          </div>
+        </div>
         </div>
       </div>
     </div>
@@ -110,10 +121,27 @@ export default {
 }
 </script>
 <style lang="scss">
+.titulo1{
+  color: #fff;
+}
+#coverImgHeader{
+  height: 80vh;
+}
+.tituloU{
+color: #eb7b7e;
+}
 .container{
   height: 80vh;
 }
-.columnaIzq{
+.nombreUsuario{
+  color: #fff;
+  font-size: 30px;
+}
+.correoUsuario{
+  color: #fff;
+}
+
+.fondoHeader{
   background-color: #eb7b7e;
   padding: 10vh;
   border-radius: 5px;
@@ -121,47 +149,44 @@ export default {
 .columnaDer{
 margin-left: 0px;
 }
+
 .spanText{
-  color: rgb(107, 107, 107);
+  color: #ffffff;
+  font-weight: bold;
 }
 .fondoInfo{
-  background-color: #fdcdd0;
+  background-color: #eb7b7e;
   padding: 20px;
   border-radius: 5px;
 }
 .profilePhoto{
-  width: 90%;
+  width: 15%;
+}
+.btn.btn-update{
+  background-color: #fdcdd0;
+  color: #cc7073;
 }
 .btn.btn-salir {
-  background: #cc7073;
-  color: #fff;
+  background: #fff;
+  color: #cc7073;
   &:hover {
-    color: #fff;
-    background-color: #cc7073;
+    color: #965153;
+    background-color: rgb(202, 202, 202);
   }
 }
 .nameUser{
   height: 30px;
 }
-.loginForm {
-  margin: 60px;
-}
 
-@media (min-width: 576px) {
-  .columnaDer {
-   margin-left: 0px;
+@media (max-width: 576px) {
+  .profilePhoto {
+    width: 50%;
   }
 }
-@media (min-width: 768px) {
-  .columnaDer {
-    margin-left: 0px;
+@media (max-width: 768px) {
+ .profilePhoto {
+    width: 50%;
   }
 }
 
-@media (min-width: 992px) {
-  .columnaDer {
-    margin-left: 180px;
-    margin-top: 100px;
-  }
-}
 </style>

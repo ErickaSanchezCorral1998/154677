@@ -12,11 +12,11 @@ export default {
     }
     return null
   },
-  signUp (data) {
+  async signUp (data) {
     if (data.nombre === ' ' || data.email === ' ' || data.password === ' ') {
       return alert('Todos los campos son obligatorios')
     }
-    fireApp.auth().createUserWithEmailAndPassword(data.email, data.password).then((result) => {
+    await fireApp.auth().createUserWithEmailAndPassword(data.email, data.password).then((result) => {
       let newUser = {
         displayName: data.nombre,
         email: result.user.email,
@@ -25,7 +25,7 @@ export default {
       router.push({ name: 'profile' })
       fireApp.auth().updateCurrentUser(newUser).catch(err => console.table(err))
     }).catch((err) => {
-      console.table(err)
+      return Promise.reject(err)
     })
     console.log(data)
   },

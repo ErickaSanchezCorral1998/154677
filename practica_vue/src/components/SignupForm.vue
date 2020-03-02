@@ -53,6 +53,16 @@
           >Sign up</button>
         </div>
       </div>
+      <br>
+       <div class="alert alert-danger correoUsado" role="alert" id="correoUsado">
+      Correo en uso
+      </div>
+       <div class="alert alert-danger correoInvalido" role="alert" id="correoInvalido">
+      Usuario inválido
+      </div>
+       <div class="alert alert-danger contrasenaDebil" role="alert" id="contrasenaDebil">
+      Contraseña débil
+       </div>
     </div>
 
   </section>
@@ -82,7 +92,18 @@ export default {
   },
   methods: {
     signup () {
-      Auth.signUp(this.user)
+      Auth.signUp(this.user).catch(error => {
+        console.log(error.code, error.message)
+        if (error.code === 'auth/email-already-in-use') {
+          document.getElementById('correoUsado').style.display = 'block'
+        } else if (error.code === 'auth/invalid-email') {
+          document.getElementById('correoInvalido').style.display = 'block'
+        } else if (error.code === 'auth/weak-password') {
+          document.getElementById('contrasenaDebil').style.display = 'block'
+        } else {
+          alert(error.message)
+        }
+      })
     }
   }
 }
@@ -94,5 +115,14 @@ export default {
   &:active {
     color: #ceaeb0;
   }
+}
+.alert.alert-danger.correoUsado{
+  display: none
+}
+.alert.alert-danger.contrasenaDebil{
+  display: none
+}
+.alert.alert-danger.correoInvalido{
+  display: none
 }
 </style>

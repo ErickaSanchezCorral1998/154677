@@ -46,6 +46,7 @@
     </div>
     <br>
     <div class="form-group">
+
       <div class="row">
         <div class="col">
           <button
@@ -59,6 +60,17 @@
             @click="signup"
           >Sign up</button>
         </div>
+      </div>
+      <br>
+
+      <div class="alert alert-danger noEncontrado" role="alert" id="noEncontrado">
+      Usuario no encontrado
+      </div>
+       <div class="alert alert-danger deshabilitado" role="alert" id="deshabilitado">
+      Usuario deshabilitado
+      </div>
+       <div class="alert alert-danger correoContrasena" role="alert" id="correoContrasena">
+      Correo o contraseña equivocada
       </div>
     </div>
 
@@ -97,12 +109,10 @@ export default {
       // console.log('user from data:' + this.user.email)
       Auth.logIn(this.user).catch(error => {
         console.log(error.code, error.message)
-        if (error.code === 'auth/invalid-email') {
-          alert('Correo no válido.')
+        if (error.code === 'auth/invalid-email' || error.code === 'auth/wrong-password') {
+          document.getElementById('correoContrasena').style.display = 'block'
         } else if (error.code === 'auth/user-disabled') {
-          alert('Usuario desahabilitado.')
-        } else if (error.code === 'auth/user-not-found') {
-          alert('Usuario no encontrado')
+          document.getElementById('deshabilitado').style.display = 'block'
         } else {
           alert(error.message)
         }
@@ -169,5 +179,14 @@ export default {
   &:active {
     border-bottom: 2px solid #fe6c72;
   }
+}
+.alert.alert-danger.noEncontrado{
+  display: none;
+}
+.alert.alert-danger.correoContrasena{
+  display: none
+}
+.alert.alert-danger.deshabilitado{
+  display: none
 }
 </style>
