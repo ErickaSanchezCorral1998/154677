@@ -111,7 +111,6 @@ export default {
         phoneNumber: this.user.phoneNumber
       }).then((result) => {
         console.log(result)
-        console.log('Ok')
         return alert(`Usuario actualizado`)
       }).catch((err) => {
         console.table(err)

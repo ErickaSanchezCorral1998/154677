@@ -6,6 +6,8 @@
       <br>
       <h6 class="titulo2">Welcome Back, Please login</h6>
       <h6 class="titulo2">to your account</h6>
+      <!--Lo utilizamos como etiqueta de html-->
+      <alerts-component v-if="showError" :message="errorMessage" :code="errorCode"></alerts-component>
     </div>
     <br>
     <br>
@@ -15,6 +17,7 @@
         placeholder="Email address"
         class="form-control mb-2 "
         v-model="user.email"
+        @keypress="showError=false"
       >
       <input
         type="password"
@@ -22,6 +25,7 @@
         class="form-control mb-2"
         v-model="user.password"
         @keypress.enter="login"
+        @keypress="showError=false"
       >
       <!--Handlerbars templating -  pasar datos de js a html-->
       <!-- {{user.password}}-->
@@ -62,26 +66,25 @@
         </div>
       </div>
       <br>
-
-      <div class="alert alert-danger noEncontrado" role="alert" id="noEncontrado">
-      Usuario no encontrado
-      </div>
-       <div class="alert alert-danger deshabilitado" role="alert" id="deshabilitado">
-      Usuario deshabilitado
-      </div>
-       <div class="alert alert-danger correoContrasena" role="alert" id="correoContrasena">
-      Correo o contraseña equivocada
-      </div>
     </div>
 
   </section>
 </template>
 <script lang="js">
 import Auth from '@/config/auth.js'
+// importar el componenete alerts
+import AlertsComponent from './Helpers/Alerts'
 export default {
   name: 'LoginForm',
-  data () { // Variables y metodos(funciones que vamos  a utilizar)
+  components: {
+    AlertsComponent// Lo registramos como componente
+  },
+  data () {
+    // Variables y metodos(funciones que vamos  a utilizar)
     return {
+      showError: false,
+      errorMessage: '',
+      errorCode: '',
       user: {
         email: '',
         password: ''
@@ -109,13 +112,9 @@ export default {
       // console.log('user from data:' + this.user.email)
       Auth.logIn(this.user).catch(error => {
         console.log(error.code, error.message)
-        if (error.code === 'auth/invalid-email' || error.code === 'auth/wrong-password') {
-          document.getElementById('correoContrasena').style.display = 'block'
-        } else if (error.code === 'auth/user-disabled') {
-          document.getElementById('deshabilitado').style.display = 'block'
-        } else {
-          alert(error.message)
-        }
+        this.showError = true
+        this.errorMessage = error.message
+        this.errorCode = error.code
       })
     },
     signup () {
