@@ -179,13 +179,4 @@ export default {
     border-bottom: 2px solid #fe6c72;
   }
 }
-.alert.alert-danger.noEncontrado{
-  display: none;
-}
-.alert.alert-danger.correoContrasena{
-  display: none
-}
-.alert.alert-danger.deshabilitado{
-  display: none
-}
 </style>

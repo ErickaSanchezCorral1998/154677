@@ -6,6 +6,7 @@
       <br>
       <h6 class="titulo2">Welcome, Please register</h6>
       <h6 class="titulo2">your account</h6>
+      <alerts-component v-if="showError" :message="errorMessage" :code="errorCode"></alerts-component>
     </div>
     <br>
     <br>
@@ -20,13 +21,14 @@
         type="email"
         placeholder="Email"
         class="form-control mb-2 "
-        v-model="user.email"
+        v-model="user.email" @keypress="showError=false"
       >
       <input
         type="password"
         placeholder="Password"
         class="form-control mb-2"
         v-model="user.password"
+        @keypress="showError=false"
         @keypress.enter="signup"
       >
       <br>
@@ -54,25 +56,23 @@
         </div>
       </div>
       <br>
-       <div class="alert alert-danger correoUsado" role="alert" id="correoUsado">
-      Correo en uso
-      </div>
-       <div class="alert alert-danger correoInvalido" role="alert" id="correoInvalido">
-      Usuario inválido
-      </div>
-       <div class="alert alert-danger contrasenaDebil" role="alert" id="contrasenaDebil">
-      Contraseña débil
-       </div>
     </div>
 
   </section>
 </template>
 <script lang="js">
 import Auth from '@/config/auth.js'
+import AlertsComponent from './Helpers/Alerts'
 export default {
   name: 'SignupForm',
+  components: {
+    AlertsComponent
+  },
   data () { // Variables y metodos(funciones que vamos  a utilizar)
     return {
+      showError: false,
+      errorMessage: '',
+      errorCode: '',
       user: {
         nombre: '',
         email: '',
@@ -94,15 +94,9 @@ export default {
     signup () {
       Auth.signUp(this.user).catch(error => {
         console.log(error.code, error.message)
-        if (error.code === 'auth/email-already-in-use') {
-          document.getElementById('correoUsado').style.display = 'block'
-        } else if (error.code === 'auth/invalid-email') {
-          document.getElementById('correoInvalido').style.display = 'block'
-        } else if (error.code === 'auth/weak-password') {
-          document.getElementById('contrasenaDebil').style.display = 'block'
-        } else {
-          alert(error.message)
-        }
+        this.showError = true
+        this.errorMessage = error.message
+        this.errorCode = error.code
       })
     }
   }
@@ -115,14 +109,5 @@ export default {
   &:active {
     color: #ceaeb0;
   }
-}
-.alert.alert-danger.correoUsado{
-  display: none
-}
-.alert.alert-danger.contrasenaDebil{
-  display: none
-}
-.alert.alert-danger.correoInvalido{
-  display: none
 }
 </style>

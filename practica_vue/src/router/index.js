@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
 import Profile from '../views/Profile.vue'
+import Partida from '../views/Juego/Partida.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -43,6 +44,12 @@ const routes = [
     meta: {
       auth: true
     }
+  },
+  {
+    // Ruta dinamica, donde num de partida puede ser diferente para cargar
+    path: '/juego-1/:no_partida',
+    name: 'partida',
+    component: Partida
   }
 ]
 
