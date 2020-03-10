@@ -7,14 +7,14 @@
     <h3>Jugador 1</h3>
     <div class="row   ">
       <div class="col-md-3 mx-auto">
-        <h1 >🤛</h1>
+        <h1 >{{options['userOpcion']}}</h1>
       </div>
     </div>
     <div class="row">
       <label id="separacion" class="mx-auto"></label>
       <div class="col-md-6 mx-auto">
         <div class="row">
-          <div class="col col-sm-4 opcion p-3" v-for="(option,key ) in opciones" :key="key" @click="select(key)">
+          <div id="opcionesIconos" class="col col-sm-4 opcion p-3" v-for="(option,key ) in opciones" :key="key" @click="select(key)">
         {{option}}
           </div>
         </div>
@@ -27,6 +27,7 @@
 <script lang="js">
 export default {
   name: 'Juego',
+  props: ['userOpcion'],
   components: {
 
   },
@@ -60,5 +61,8 @@ export default {
   background-color: rgb(2, 117, 102);
   height: 2px;
   width: 90%;
+}
+#opcionesIconos{
+  border-color:aqua;
 }
 </style>

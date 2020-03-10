@@ -5,8 +5,12 @@ import router from './router'
 import store from './store'
 import Auth from './config/auth'
 import 'animate.css'
+// VueFire instalacion
+import { firestorePlugin } from 'vuefire'
 //  librerias de usuario
 import 'bootstrap/scss/bootstrap.scss'
+// Registro de pugin en vue
+Vue.use(firestorePlugin)
 Vue.config.productionTip = false
 // Metodo de comprobacion de permiso de acceso
 router.beforeEach(async (to, from, next) => {
