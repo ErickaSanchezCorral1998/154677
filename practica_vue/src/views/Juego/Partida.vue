@@ -1,9 +1,9 @@
 <template>
 <section class="partida">
-    <h1>Piedra, papel o tijera</h1>
-    <div class="row">
-      <div class="col col-md-6">
-          <juego @opcion="opcion"></juego>
+    <h1 class="tituloJuego">Piedra, papel o tijera</h1>
+    <div class="row tableroJuego">
+      <div class="col col-md-6 tablero ">
+          <juego @opcion="getOpcion"></juego>
       </div>
       <div class="col col-md-6">
         <juego></juego>
@@ -27,6 +27,13 @@ export default {
 </script>
 <style lang="scss">
   .partida{
-    background-color: rgb(173, 173, 212);
+    background-color: rgba(34, 185, 160, 0.575);
+    padding: 50px;
   }
+.tituloJuego{
+  color: #fff;;
+}
+.tableroJuego{
+  padding: 50px;;
+}
 </style>
