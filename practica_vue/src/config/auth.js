@@ -41,5 +41,8 @@ export default {
       return Promise.reject(err)
     })
     console.log(data)
+  },
+  getUser () {
+    return fireApp.auth().currentUser
   }
 }

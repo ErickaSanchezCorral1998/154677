@@ -1,13 +1,13 @@
 <template>
 <section >
-   <div class="containerJuego">
+  <div class="containerJuego">
       <div
         class="card" id="cardJuego"
       >
     <h3>Jugador 1</h3>
     <div class="row   ">
       <div class="col-md-3 mx-auto">
-        <h1 >{{options['userOpcion']}}</h1>
+        <h1 >{{opciones[userOpcion]}}</h1>
       </div>
     </div>
     <div class="row">
@@ -20,17 +20,14 @@
         </div>
       </div>
     </div>
-      </div>
-   </div>
+    </div>
+  </div>
   </section>
 </template>
 <script lang="js">
 export default {
   name: 'Juego',
   props: ['userOpcion'],
-  components: {
-
-  },
   data () {
     return {
       opciones: {
