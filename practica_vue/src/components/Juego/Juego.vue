@@ -4,7 +4,7 @@
       <div
         class="card" id="cardJuego"
       >
-    <h3>Jugador 1</h3>
+    <h3>{{displayName}}</h3>
     <div class="row   ">
       <div class="col-md-3 mx-auto">
         <h1 >{{opciones[userOpcion]}}</h1>
@@ -27,7 +27,7 @@
 <script lang="js">
 export default {
   name: 'Juego',
-  props: ['userOpcion'],
+  props: ['userOpcion', 'displayName'],
   data () {
     return {
       opciones: {
