@@ -16,7 +16,7 @@
         <button  v-if="!partida.name[1]"  class="btn" @click="retar">💰</button>
       </div>
       <div class="col col-md-5">
-        <juego @opcion="partida.participantes[1] === user.uid?getOpcion:''" :userOpcion="partida.usuario_1!=' '?partida.usuario_2:' '" ></juego>
+        <juego :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" :userOpcion="partida.usuario_1!=' '?partida.usuario_2:''" @opcion="partida.participantes[1] === user.uid?getOpcion:''"></juego>
       </div>
     </div>
     {{partida}}
@@ -89,7 +89,7 @@ export default {
       // eslint-disable-next-line no-unused-vars
       let uid = this.user.uid
       // Escribe en la base de datos
-      this.partida.name.push(this.user.displayName == null ? 'Usuario' : this.user.displayName)
+      this.partida.name.push(this.user.displayName)
       this.partida.participantes.push(this.user.uid)
       fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(this.partida)
     },
