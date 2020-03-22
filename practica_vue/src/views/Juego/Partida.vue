@@ -7,8 +7,8 @@
     <div class="row tableroJuego">
 
       <div class="col col-md-5 tablero ">
-          <juego @opcion="partida.participantes[0] === user.uid?getOpcion:''"
-            :userOpcion="partida.usuario_1"
+          <juego  @opcion="getOpcion"
+            :userOpcion="(partida.participantes[0] === this.user.uid) ? partida.usuario_1:''"
             :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.name[0]:'':user.displayName"></juego>
       </div>
       <div class="col col-md-2">
@@ -16,7 +16,7 @@
         <button  v-if="!partida.name[1]"  class="btn" @click="retar">💰</button>
       </div>
       <div class="col col-md-5">
-        <juego :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" :userOpcion="partida.usuario_1!=' '?partida.usuario_2:''" @opcion="partida.participantes[1] === user.uid?getOpcion:''"></juego>
+        <juego  :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" :userOpcion="(partida.participantes[1] === this.user.uid) ? partida.usuario_2 :''? (partida.usuario_1 != '') ? partida.usuario_2: '': ''" @opcion="getOpcion"></juego>
       </div>
     </div>
     {{partida}}
@@ -30,6 +30,7 @@ import Auth from '@/config/auth'
 const partida = fireApp.firestore().collection('juego-1')
 export default {
   name: 'Partida',
+  props: ['usuario_opcion'],
   components: {
     Juego
   },
@@ -72,14 +73,14 @@ export default {
       // Escribe en la base de datos
       fireApp.firestore().collection('juego-1').add({
         participantes: [uid],
-        name: [this.user.displayName],
+        name: [this.user.displayName == null ? 'Usuario' : this.user.displayName],
         'usuario_1': ' ',
         'usuario_2': ' ',
         'ganador': ' '
       })
     },
     // Cargar los datos de la partifda del firestore
-    obtenerPartida (partida) {
+    obtenerPartida () {
       fireApp.firestore().collection('juego-1').doc(partida).get().then((result) => {
         console.log(result.data())
       })
@@ -89,12 +90,13 @@ export default {
       // eslint-disable-next-line no-unused-vars
       let uid = this.user.uid
       // Escribe en la base de datos
-      this.partida.name.push(this.user.displayName)
+      this.partida.name.push(this.user.displayName == null ? 'Usuario' : this.user.displayName)
       this.partida.participantes.push(this.user.uid)
       fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(this.partida)
     },
     getOpcion (opcion) {
       let participantes = this.partida.participantes
+
       console.log(participantes.indexOf(this.user.uid))
       let data = {}
       if (participantes.indexOf(this.user.uid) === 0) {
