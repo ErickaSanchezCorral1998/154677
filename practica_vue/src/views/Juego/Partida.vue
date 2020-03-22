@@ -16,7 +16,7 @@
         <button  v-if="!partida.name[1]"  class="btn" @click="retar">💰</button>
       </div>
       <div class="col col-md-5">
-        <juego  :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" :userOpcion="(partida.participantes[1] === this.user.uid) ? partida.usuario_2 :''? (partida.usuario_1 != '') ? partida.usuario_2: '': ''" @opcion="getOpcion"></juego>
+        <juego @opcion="getOpcion" :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" :userOpcion="(partida.participantes[1] === this.user.uid) ? partida.usuario_2 :''" ></juego>
       </div>
     </div>
     {{partida}}
@@ -81,7 +81,7 @@ export default {
     },
     // Cargar los datos de la partifda del firestore
     obtenerPartida () {
-      fireApp.firestore().collection('juego-1').doc(partida).get().then((result) => {
+      fireApp.firestore().collection('juego-1').doc(this.partida).get().then((result) => {
         console.log(result.data())
       })
     },
@@ -108,7 +108,50 @@ export default {
           'usuario_2': opcion
         }
       }
-      fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(data)
+
+      fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(data).then((result) => {
+        switch (opcion.usuario_1) {
+          case 'piedra':
+            switch (opcion.usuario_2) {
+              case 'piedra':
+                console.log('empate')
+                break
+              case 'papel':
+                console.log('perder')
+                break
+              case 'tijeras':
+                console.log('ganar')
+                break
+            }
+            break
+          case 'papel':
+            switch (this.usuario_2) {
+              case 'piedra':
+                console.log('ganar')
+                break
+              case 'papel':
+                console.log('empate')
+                break
+              case 'tijeras':
+                console.log('perder')
+                break
+            }
+            break
+          case 'tijeras':
+            switch (this.usuario_2) {
+              case 'piedra':
+                console.log('perder')
+                break
+              case 'papel':
+                console.log('ganar')
+                break
+              case 'tijeras':
+                console.log('empate')
+                break
+            }
+            break
+        }
+      })
     },
     ganar () {
       switch (this.usuario_1) {

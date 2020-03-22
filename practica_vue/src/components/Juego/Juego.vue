@@ -14,7 +14,7 @@
       <label id="separacion" class="mx-auto"></label>
       <div class="col-md-6 mx-auto">
         <div class="row">
-          <div id="opcionesIconos" class="col col-sm-4 opcion p-3" v-for="(option,key ) in opciones" :key="key" @click="select(key)">
+          <div class="col col-sm-4 opcion p-3" v-for="(option,key ) in opciones" :key="key" @click="select(key)">
         {{option}}
           </div>
         </div>
