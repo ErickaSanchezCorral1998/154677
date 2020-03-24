@@ -1,13 +1,23 @@
 <template>
-<section class="partida">
+<section  class="partida">
     <h1 class="tituloJuego">{{$route.params.no_partida.replace('-',' ')}}</h1>
       <div class="justify-center">
         <button class="btn btn-info " @click="crearPartida">Nueva Partida</button>
       </div>
+      <div class="row">
+        <div class="col">
+          <div  v-if="!partida && !user">
+              Cargando
+          </div>
+        </div>
+      </div>
+      <div v-if="partida && user">
+
+      </div>
     <div class="row tableroJuego">
 
       <div class="col col-md-5 tablero ">
-          <juego  @opcion="getOpcion"
+          <juego  @opcion="partida.participantes[0] === user.uid?getOpcion:''"
             :userOpcion="(partida.participantes[0] === this.user.uid) ? partida.usuario_1:''"
             :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.name[0]:'':user.displayName"></juego>
       </div>
@@ -16,7 +26,7 @@
         <button  v-if="!partida.name[1]"  class="btn" @click="retar">💰</button>
       </div>
       <div class="col col-md-5">
-        <juego @opcion="getOpcion" :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" :userOpcion="(partida.participantes[1] === this.user.uid) ? partida.usuario_2 :''" ></juego>
+        <juego @opcion="partida.participantes[1] === user.uid?getOpcion:''" :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" :userOpcion="(partida.participantes[1] === this.user.uid) ? partida.usuario_2 :''" ></juego>
       </div>
     </div>
     {{partida}}
@@ -35,9 +45,11 @@ export default {
     Juego
   },
   beforeRouteEnter (to, from, next) {
-    next(vm => {
+    next(async vm => {
       // vm.obtenerPartida(to.params.no_partida)
-      vm.user = Auth.getUser()
+      // vm.user = await Auth.getUser()
+      vm.$bind('user', Auth.getUser())
+      vm.user = vm.obtenerUser()
       vm.$bind('partida', partida.doc(to.params.no_partida))
     })
   },
@@ -63,9 +75,12 @@ export default {
     }
   },
   mounted () {
-    this.user = Auth.getUser()
+    // this.user = Auth.getUser()
   },
   methods: {
+    async obtenerUser () {
+      this.user = await Auth.getUser()
+    },
     // metodo para generar nueva partida
     crearPartida () {
       this.user = Auth.getUser()
