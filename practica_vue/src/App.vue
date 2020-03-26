@@ -2,7 +2,8 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link :to="{name:'about'}">About</router-link>
+      <router-link :to="{name:'about'}">About</router-link>|
+      <router-link :to="{name:'partidas'}">Partidas</router-link>
       <!--Al agregar los dos puntos se convierte en una funcion de js-->
     </div>
     <router-view />
