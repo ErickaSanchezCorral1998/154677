@@ -22,7 +22,7 @@ export default {
         email: result.user.email,
         uid: result.user.id
       }
-      router.push({ name: 'profile' })
+      router.push({ name: 'partidas' })
       fireApp.auth().updateCurrentUser(newUser).catch(err => console.table(err))
     }).catch((err) => {
       return Promise.reject(err)
@@ -35,7 +35,7 @@ export default {
     }
     await fireApp.auth().signInWithEmailAndPassword(data.email, data.password).then((result) => {
       console.log(result)
-      router.push({ name: 'profile' })
+      router.push({ name: 'partidas' })
     }).catch((err) => {
       // Regresamos el error
       return Promise.reject(err)

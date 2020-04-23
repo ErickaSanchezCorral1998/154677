@@ -55,7 +55,10 @@ const routes = [
   {
     path: '/partidas',
     name: 'partidas',
-    component: Partidas
+    component: Partidas,
+    meta: {
+      auth: true
+    }
   }
 ]
 

@@ -1,66 +1,64 @@
 <template >
   <!--Container nos da un ancho maximo de 1140px-->
-  <div :style="{'background-color':'#eb7b7e', 'background-size': 'cover', 'height':'88.7vh'}">
-    <div class="cointainer fondoInfo">
-        <h1 class="titulo1"><b>Partidas</b></h1>
+  <div :style="{'background-color':'#fefcfd', 'background-size': 'cover', 'height':'88.7vh'}">
+    <div class="container">
+      <div
+        class="card"
+        style="border-color: #ffebeb"
+      >
         <div class="row">
-          <div class="col-4-md">
-            <div class="fotoUsuario">
-              <img  class="profilePhoto mx-auto" :src="user.photo"/><br>
-            </div>
-            <label class="mx-auto nombreUsuario">{{user.nombre}}</label>
-              <div class="partidasGanadas">
-                <label>Partidas ganadas</label><br>
-                <label>0</label>
-            </div>
+      <div class="col-4-lg col-12-md col-12-xs datos">
+        <div class="infoUsuario">
+              <img  class="profilePhoto mx-auto rounded-circle" :src="user.photo"/><br>
+
+          <label class="mx-auto usuarioNombre">{{user.nombre}}</label>
+          <br>
+          <br>
+          <button class="btn btn-edit" @click="Perfil"> <img src="@/assets/portfolio.png" width="40px"> Editar perfil</button>
+          <br>
+          <br>
+          <button class="btn btn-logout" @click="logout">Log Out</button>
           </div>
-          <div class="col-6 .container-fluid justify-center">
-            <div class="row">
-              <div class="col-6 justify-center">
-                <label class="encabezadoPartidas" >Nombre contricante</label>
-              </div>
-              <div class="col-4 justify-center">
-                <label  class="encabezadoPartidas" >Estatus</label>
-              </div>
-              <div class="col-2">
-              </div>
-            </div>
-            <div class="card">
-              <div class="row partidasLista">
-                  <div class="col-6  justify-center">
-                    <label class="datosPartida">Usuario</label>
-                  </div>
-                  <div class="col-4  justify-center">
-                    <label class="datosPartida">Activa</label>
-                  </div>
-                  <div class="col-2  justify-center">
-                    <button class="btn btn-danger">Terminar</button>
-                  </div>
-                  <label class="separador"></label>
-                </div>
-                <div class="row partidasLista">
-                  <div class="col-6  justify-center">
-                    <label class="datosPartida">Usuario</label>
-                  </div>
-                  <div class="col-4  justify-center">
-                    <label class="datosPartida">Activa</label>
-                  </div>
-                  <div class="col-2  justify-center">
-                    <button class="btn btn-danger">Terminar</button>
-                  </div>
-                  <label class="separador"></label>
-                </div>
-              </div>
+      </div>
+      <div class="col columnaDer">
+        <div class="row">
+          <div class="col"></div>
+          <div class="col-3-lg col-6-md col-6-sm">
+             <button
+            class="btn btn-pink btn-block"
+            @click="login"
+          >Create new game</button>
           </div>
         </div>
+
+        <div class="tab-main mx-auto columnaDer">
+            <input id="tab1" type="radio" name="tabs" checked>
+            <label for="tab1">Partidas propias</label>
+            <input id="tab2" type="radio" name="tabs" >
+            <label for="tab2">Partidas disponibles</label>
+            <section id="content1">
+              <PartidasDisponibles></PartidasDisponibles>
+            </section>
+            <section id="content2">
+              <label>asdasd</label>
+            </section>
+        </div>
       </div>
+      </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="js">
+import Auth from '@/config/auth.js'
 import Firebase from '@/config/_firebase.js'
+import PartidasDisponibles from '@/components/Juego/PartidasDisponibles'
 export default {
   name: 'partidas',
+  components: {
+    PartidasDisponibles
+  },
   data () { // Variables y metodos(funciones que vamos  a utilizar)
     return {
       showError: false,
@@ -76,70 +74,54 @@ export default {
     let userC = Firebase.auth().currentUser
     this.user.nombre = userC.displayName
     this.user.photo = userC.photoURL
+  },
+  methods: {
+    Perfil () {
+      this.$router.push({ name: 'profile' })
+    },
+    logout () {
+      return Auth.logOut()
+    }
   }
 }
 </script>
 <style lang="scss">
-.titulo1{
-  color: #fff;
-}
-#coverImgHeader{
-  height: 80vh;
-}
-.tituloU{
-color: #eb7b7e;
-}
-.container{
-  height: 80vh;
-}
-.nombreUsuario{
-  color: #fff;
-  font-size: 30px;
-}
-.encabezadoPartidas{
-  color: #fff;
-  text-align: center;
-  font-weight: bold;
-}
-.partidasGanadas{
-  color:#fff;
-  font-weight: bold;;
-}
-.separador{
-  height: 5px;
-  width:100%;
-  background-color: #eb7b7e;;
-}
-.fondoHeader{
+.datos{
   background-color: #eb7b7e;
-  padding: 10vh;
   border-radius: 5px;
 }
 .columnaDer{
-margin-left: 0px;
-}
-.datosPartida{
-  font-weight: bold;
-  vertical-align: middle;
-  padding: 15px;
-}
-.partidasLista .btn{
-  margin: 10px;
-}
-.fondoInfo{
-  background-color: #eb7b7e;
-  padding: 20px;
-  border-radius: 5px;
+  color: #FDCDD0;
 }
 .profilePhoto{
-  width: 55%;
-  border: solid 10px #fff
+  margin: 40px;
+  width: 40%;
 }
-
-.nameUser{
-  height: 30px;
+.usuarioNombre{
+  color: #fff;
+  font-size:50px;
 }
-
+.btn.btn-edit{
+  border: #fff solid 3px;
+  color: #ffffff;
+  &:hover{
+    background-color: #fdcdd0;
+    color: #eb7b7e;
+  }
+}
+.btn.btn-logout{
+  border: #fff solid 3px;
+  color: #ffffff;
+  &:hover{
+    background-color: #fdcdd0;
+    color: #eb7b7e;
+  }
+}
+.infoUsuario{
+  border: #fff solid 4px;
+  margin: 10px;
+  padding: 15px;
+}
 @media (max-width: 576px) {
   .profilePhoto {
     width: 50%;
@@ -150,5 +132,58 @@ margin-left: 0px;
     width: 50%;
   }
 }
+.tab-main section {
+    display: none;
+    padding: 2em 0 0;
+    border-top: 1px solid #abc;
+}
+.tab-main section{
+  margin: 40px;
+  width: 90%;
+}
+.tab-main input {
+    display: none;
+}
 
+.tab-main label {
+    display: inline-block;
+    margin: 0 0 -1px;
+    width: 32.8%;
+    text-align: left;
+    color: #CD787D;
+    padding: 0.2em 0em;
+    letter-spacing: 1px;
+    background: bottom;
+    font-size: 20px;
+    border-left: 4px solid transparent;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.tab-main label:before {
+    font-family: fontawesome;
+    font-weight: normal;
+    margin-right: 10px;
+    opacity: 0;
+}
+
+.tab-main label:hover {
+    cursor: pointer;
+}
+
+.tab-main input:checked + label {
+    border-bottom: 1px solid #fff;
+    color: #FF6C70;
+    border-bottom: 2px solid;
+    background: #f8f9fa;
+    font-size: 20px;
+    padding: 0.2em 0em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.tab-main #tab1:checked ~ #content1,
+.tab-main #tab2:checked ~ #content2 {
+    display: block;
+}
 </style>

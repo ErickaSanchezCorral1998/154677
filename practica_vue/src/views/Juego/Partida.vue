@@ -96,7 +96,7 @@ export default {
     },
     // Cargar los datos de la partifda del firestore
     obtenerPartida () {
-      fireApp.firestore().collection('juego-1').doc(this.partida).get().then((result) => {
+      fireApp.firestore().collection('juego-1').doc(partida).get().then((result) => {
         console.log(result.data())
       })
     },
