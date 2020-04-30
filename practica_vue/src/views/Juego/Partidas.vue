@@ -24,9 +24,9 @@
         <div class="row">
           <div class="col"></div>
           <div class="col-3-lg col-6-md col-6-sm">
-             <button
+            <button
             class="btn btn-pink btn-block"
-            @click="login"
+            @click="crearPartida"
           >Create new game</button>
           </div>
         </div>
@@ -54,10 +54,20 @@
 import Auth from '@/config/auth.js'
 import Firebase from '@/config/_firebase.js'
 import PartidasDisponibles from '@/components/Juego/PartidasDisponibles'
+const partida = Firebase.firestore().collection('juego-1')
 export default {
   name: 'partidas',
   components: {
     PartidasDisponibles
+  },
+  beforeRouteEnter (to, from, next) {
+    next(async vm => {
+      // vm.obtenerPartida(to.params.no_partida)
+      // vm.user = await Auth.getUser()
+      vm.$bind('user', Auth.getUser())
+      vm.user = vm.obtenerUser()
+      vm.$bind('partida', partida.doc(to.params.no_partida))
+    })
   },
   data () { // Variables y metodos(funciones que vamos  a utilizar)
     return {
@@ -81,6 +91,23 @@ export default {
     },
     logout () {
       return Auth.logOut()
+    },
+    async obtenerUser () {
+      this.user = await Auth.getUser()
+    },
+    // metodo para generar nueva partida
+    crearPartida () {
+      this.user = Auth.getUser()
+      let uid = this.user.uid
+      // Escribe en la base de datos
+      Firebase.firestore().collection('juego-1').add({
+        participantes: [uid],
+        name: [this.user.displayName == null ? 'Usuario' : this.user.displayName],
+        'usuario_1': ' ',
+        'usuario_2': ' ',
+        'ganador': ' '
+      })
+      this.$router.push({ name: 'juego-1/:no_partida' })
     }
   }
 }

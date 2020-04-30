@@ -21,6 +21,7 @@ export default {
         displayName: data.nombre,
         email: result.user.email,
         uid: result.user.id
+
       }
       router.push({ name: 'partidas' })
       fireApp.auth().updateCurrentUser(newUser).catch(err => console.table(err))

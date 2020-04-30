@@ -46,7 +46,7 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     next(async vm => {
-      // vm.obtenerPartida(to.params.no_partida)
+      vm.obtenerPartida(to.params.no_partida)
       // vm.user = await Auth.getUser()
       vm.$bind('user', Auth.getUser())
       vm.user = vm.obtenerUser()
@@ -96,7 +96,7 @@ export default {
     },
     // Cargar los datos de la partifda del firestore
     obtenerPartida () {
-      fireApp.firestore().collection('juego-1').doc(partida).get().then((result) => {
+      fireApp.firestore().collection('juego-1').doc(this.partida).get().then((result) => {
         console.log(result.data())
       })
     },

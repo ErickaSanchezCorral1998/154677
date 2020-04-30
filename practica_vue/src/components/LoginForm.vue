@@ -1,7 +1,7 @@
 <template>
   <section class="fondoForm">
     <div class="text-left">
-      <h3 class="titulo">We are <b class="negrita">aroma</b>
+      <h3 class="titulo">We are <b class="negrita">DDMI</b>
       </h3>
       <br>
       <h6 class="titulo2">Welcome Back, Please login</h6>
