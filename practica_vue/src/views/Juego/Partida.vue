@@ -29,7 +29,7 @@
         <juego @opcion="partida.participantes[1] === user.uid?getOpcion:''" :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" :userOpcion="(partida.participantes[1] === this.user.uid) ? partida.usuario_2 :''" ></juego>
       </div>
     </div>
-    {{partida}}
+    {{partidas}}
   </section>
 </template>
 <script lang="js">
@@ -95,9 +95,12 @@ export default {
       })
     },
     // Cargar los datos de la partifda del firestore
-    obtenerPartida () {
+    obtenerPartida (db) {
       fireApp.firestore().collection('juego-1').doc(this.partida).get().then((result) => {
         console.log(result.data())
+      })
+      fireApp.firestore().collection('juego-1').where('participantes', '==', this.user.uid).get().then((result) => {
+        console.log('Hay partidas')
       })
     },
     retar () {
