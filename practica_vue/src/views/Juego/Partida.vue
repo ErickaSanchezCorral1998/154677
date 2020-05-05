@@ -18,7 +18,7 @@
 
       <div class="col col-md-5 tablero ">
           <juego  @opcion="partida.participantes[0] === user.uid?getOpcion:''"
-            :userOpcion="(partida.participantes[0] === this.user.uid) ? partida.usuario_1:''"
+            :userOpcion="(partida.participantes[0] === this.user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
             :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.name[0]:'':user.displayName"></juego>
       </div>
       <div class="col col-md-2">
@@ -26,7 +26,7 @@
         <button  v-if="!partida.name[1]"  class="btn" @click="retar">💰</button>
       </div>
       <div class="col col-md-5">
-        <juego @opcion="partida.participantes[1] === user.uid?getOpcion:''" :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" :userOpcion="(partida.participantes[1] === this.user.uid) ? partida.usuario_2 :''" ></juego>
+        <juego @opcion="partida.participantes[1] === user.uid?getOpcion:''" :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" :userOpcion="(partida.participantes[1] === this.user.uid) ? partida.usuario_2 :(partida.usuario_1&&partida.usuario_2)?(partida.usuario_1!='')?partida.usuario_2:'':''" ></juego>
       </div>
     </div>
     {{partidas}}
@@ -44,21 +44,23 @@ export default {
   components: {
     Juego
   },
-  beforeRouteEnter (to, from, next) {
-    next(async vm => {
-      vm.obtenerPartida(to.params.no_partida)
-      // vm.user = await Auth.getUser()
-      vm.$bind('user', Auth.getUser())
-      vm.user = vm.obtenerUser()
-      vm.$bind('partida', partida.doc(to.params.no_partida))
-    })
-  },
   data () {
     return {
       partida: {},
       partidas: [],
       user: {}
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(async vm => {
+      /* vm.obtenerPartida(to.params.no_partida)
+      // vm.user = await Auth.getUser()
+      vm.$bind('user', Auth.getUser())
+      vm.user = vm.obtenerUser()
+      vm.$bind('partida', partida.doc(to.params.no_partida)) */
+      vm.user = Auth.getUser()
+      vm.$bind('partida', partida.doc(to.params.no_partida))
+    })
   },
   firestore: {
     partidas: fireApp.firestore().collection('juego-1')
@@ -75,7 +77,7 @@ export default {
     }
   },
   mounted () {
-    // this.user = Auth.getUser()
+    this.user = Auth.getUser()
   },
   methods: {
     async obtenerUser () {
@@ -95,8 +97,8 @@ export default {
       })
     },
     // Cargar los datos de la partifda del firestore
-    obtenerPartida (db) {
-      fireApp.firestore().collection('juego-1').doc(this.partida).get().then((result) => {
+    obtenerPartida () {
+      fireApp.firestore().collection('juego-1').doc(partida).get().then((result) => {
         console.log(result.data())
       })
       fireApp.firestore().collection('juego-1').where('participantes', '==', this.user.uid).get().then((result) => {
@@ -114,19 +116,21 @@ export default {
     },
     getOpcion (opcion) {
       let participantes = this.partida.participantes
-
+      if (this.partida.name[participantes.indexOf(this.user.uid)] !== opcion[1]) {
+        return 0
+      }
       console.log(participantes.indexOf(this.user.uid))
       let data = {}
       if (participantes.indexOf(this.user.uid) === 0) {
         data = {
-          'usuario_1': opcion
+          'usuario_1': opcion[0]
         }
       } else {
         data = {
-          'usuario_2': opcion
+          'usuario_2': opcion[0]
         }
       }
-
+      fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(data)
       fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(data).then((result) => {
         switch (opcion.usuario_1) {
           case 'piedra':
