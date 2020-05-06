@@ -6,19 +6,19 @@
       </div>
       <div class="row">
         <div class="col">
-          <div  v-if="!partida && !user">
+          <!--<div  v-if="!partida && !user">
               Cargando
-          </div>
+          </div>-->
         </div>
       </div>
-      <div v-if="partida && user">
+  <!--    <div v-if="partida && user">
 
-      </div>
+      </div>-->
     <div class="row tableroJuego">
-
+<!--partida.participantes[0] === this.user.uid?getOpcion:''-->
       <div class="col col-md-5 tablero ">
-          <juego  @opcion="partida.participantes[0] === user.uid?getOpcion:''"
-            :userOpcion="(partida.participantes[0] === this.user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
+          <juego  @opcion="partida.participantes[0] === this.user.uid?getOpcion:''"
+            :userOpcion="(partida.participantes[0] === user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
             :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.name[0]:'':user.displayName"></juego>
       </div>
       <div class="col col-md-2">
@@ -26,10 +26,12 @@
         <button  v-if="!partida.name[1]"  class="btn" @click="retar">💰</button>
       </div>
       <div class="col col-md-5">
-        <juego @opcion="partida.participantes[1] === user.uid?getOpcion:''" :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" :userOpcion="(partida.participantes[1] === this.user.uid) ? partida.usuario_2 :(partida.usuario_1&&partida.usuario_2)?(partida.usuario_1!='')?partida.usuario_2:'':''" ></juego>
+        <juego @opcion="getOpcion"
+        :userOpcion="(partida.participantes[1] === this.user.uid) ? partida.usuario_2:(partida.usuario_2 && partida.usuario_2)?partida.usuario_2:''"
+        :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" ></juego>
       </div>
     </div>
-    {{partidas}}
+    {{partida}}
   </section>
 </template>
 <script lang="js">
@@ -63,7 +65,9 @@ export default {
     })
   },
   firestore: {
+    // partidas: fireApp.firestore().collection('juego-1')
     partidas: fireApp.firestore().collection('juego-1')
+
   },
   // Helper para asignar objetos o variables que necesitan ser detectados en sus cambios para ejecutar metodos
   watch: {
@@ -78,6 +82,14 @@ export default {
   },
   mounted () {
     this.user = Auth.getUser()
+  },
+  updated (opcion) {
+    let participantes = this.partida.participantes
+    if (((participantes.indexOf(this.user.uid) === 0) && opcion) === 'tijeras') {
+      if (((participantes.indexOf(this.user.uid) === 0) && opcion) === 'tijeras') {
+        console.log('as')
+      }
+    }
   },
   methods: {
     async obtenerUser () {
@@ -98,7 +110,7 @@ export default {
     },
     // Cargar los datos de la partifda del firestore
     obtenerPartida () {
-      fireApp.firestore().collection('juego-1').doc(partida).get().then((result) => {
+      fireApp.firestore().collection('juego-1').doc(this.partida).get().then((result) => {
         console.log(result.data())
       })
       fireApp.firestore().collection('juego-1').where('participantes', '==', this.user.uid).get().then((result) => {
@@ -116,64 +128,62 @@ export default {
     },
     getOpcion (opcion) {
       let participantes = this.partida.participantes
-      if (this.partida.name[participantes.indexOf(this.user.uid)] !== opcion[1]) {
-        return 0
-      }
       console.log(participantes.indexOf(this.user.uid))
       let data = {}
       if (participantes.indexOf(this.user.uid) === 0) {
         data = {
-          'usuario_1': opcion[0]
+          'usuario_1': opcion
         }
       } else {
         data = {
-          'usuario_2': opcion[0]
+          'usuario_2': opcion
         }
       }
-      fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(data)
-      fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(data).then((result) => {
-        switch (opcion.usuario_1) {
-          case 'piedra':
-            switch (opcion.usuario_2) {
-              case 'piedra':
-                console.log('empate')
-                break
-              case 'papel':
-                console.log('perder')
-                break
-              case 'tijeras':
-                console.log('ganar')
-                break
+
+      if (participantes.indexOf(this.user.uid) === 0) {
+        switch (opcion) {
+          case 'tijeras':
+            console.log('Usuario 1 tijeras')
+            if (((participantes.indexOf(this.user.uid) === 1) && opcion) === 'tijeras') {
+              console.log('Empate')
             }
             break
           case 'papel':
-            switch (this.usuario_2) {
-              case 'piedra':
-                console.log('ganar')
-                break
-              case 'papel':
-                console.log('empate')
-                break
-              case 'tijeras':
-                console.log('perder')
-                break
-            }
+            console.log('Usuario 1 papel')
             break
-          case 'tijeras':
-            switch (this.usuario_2) {
-              case 'piedra':
-                console.log('perder')
-                break
-              case 'papel':
-                console.log('ganar')
-                break
-              case 'tijeras':
-                console.log('empate')
-                break
-            }
+          case 'piedra':
+            console.log('Usuario 1 piedra')
+            break
+          default:
+            console.log('sin opcion')
             break
         }
-      })
+      }
+
+      if (participantes.indexOf(this.user.uid) === 1) {
+        switch (opcion) {
+          case 'tijeras':
+            console.log('Usuario 2 tijeras')
+            if (((participantes.indexOf(this.user.uid) === 0) && opcion) === 'tijeras') {
+              console.log('Empate')
+            }
+            break
+          case 'papel':
+            console.log('Usuario 2 papel')
+            break
+          case 'piedra':
+            console.log('Usuario 2 piedra')
+            break
+          default:
+            console.log('sin opcion')
+            break
+        }
+      }
+      /*  if ((participantes.indexOf(this.user.uid) === 0) ? opcion : '' === 'tijeras') {
+        console.log('Escogio tijeras')
+      } */
+      fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(data)
+      console.log('Mi data es', data)
     },
     ganar () {
       switch (this.usuario_1) {
