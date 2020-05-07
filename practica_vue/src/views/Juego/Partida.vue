@@ -54,15 +54,20 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    next(async vm => {
+    // next(async vm => {
+    next(vm => {
       /* vm.obtenerPartida(to.params.no_partida)
       // vm.user = await Auth.getUser()
       vm.$bind('user', Auth.getUser())
       vm.user = vm.obtenerUser()
       vm.$bind('partida', partida.doc(to.params.no_partida)) */
-      vm.user = Auth.getUser()
+      // vm.user = Auth.getUser()
       vm.$bind('partida', partida.doc(to.params.no_partida))
     })
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.$bind('partida', partida.doc(to.params.no_partida))
+    next()
   },
   firestore: {
     // partidas: fireApp.firestore().collection('juego-1')
@@ -110,11 +115,14 @@ export default {
     },
     // Cargar los datos de la partifda del firestore
     obtenerPartida () {
-      fireApp.firestore().collection('juego-1').doc(this.partida).get().then((result) => {
+      /* fireApp.firestore().collection('juego-1').doc(this.partida).get().then((result) => {
         console.log(result.data())
       })
       fireApp.firestore().collection('juego-1').where('participantes', '==', this.user.uid).get().then((result) => {
         console.log('Hay partidas')
+      }) */
+      partida.doc(this.partida).get().then((result) => {
+        console.log(result.data())
       })
     },
     retar () {
@@ -139,7 +147,7 @@ export default {
           'usuario_2': opcion
         }
       }
-
+      /*
       if (participantes.indexOf(this.user.uid) === 0) {
         switch (opcion) {
           case 'tijeras':
@@ -178,11 +186,65 @@ export default {
             console.log('sin opcion')
             break
         }
-      }
+      } */
       /*  if ((participantes.indexOf(this.user.uid) === 0) ? opcion : '' === 'tijeras') {
         console.log('Escogio tijeras')
       } */
-      fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(data)
+      fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(data).then((result) => {
+        if (this.partida.usuario_1 !== '' && this.partida.usuario_2 !== '') {
+          switch (this.partida.usuario_1) {
+            case 'tijeras':
+              switch (this.partida.usuario_2) {
+                case 'piedra':
+                  console.log('usuario 1 pierde')
+                  console.log('usuario 2 gana')
+                  break
+                case 'papel':
+                  console.log('usuario 1 gano')
+                  console.log('usuario 2 pierde')
+                  break
+                case 'tijeras':
+                  console.log('empatados')
+                  break
+              }
+              break
+            case 'papel':
+              switch (this.partida.usuario_2) {
+                case 'piedra':
+                  console.log('usuario 1 gana')
+                  console.log('usuario 2 pierde')
+                  break
+                case 'papel':
+                  console.log('empatados')
+                  break
+                case 'tijeras':
+                  console.log('usuario 1 pierde')
+                  console.log('usuario 2 gana')
+                  break
+              }
+              break
+            case 'piedra':
+              switch (this.partida.usuario_2) {
+                case 'piedra':
+                  console.log('empatados')
+                  break
+                case 'papel':
+                  console.log('usuario 1 pierde')
+                  console.log('usuario 2 gana')
+                  break
+                case 'tijeras':
+                  console.log('usuario 1 gana')
+                  console.log('usuario 2 pierde')
+                  break
+              }
+              break
+            default:
+              console.log('sin opcion')
+              break
+          }
+        }
+      })
+
       console.log('Mi data es', data)
     },
     ganar () {
