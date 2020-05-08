@@ -18,12 +18,11 @@
 <!--partida.participantes[0] === this.user.uid?getOpcion:''-->
       <div class="col col-md-5 tablero ">
           <juego  @opcion="getOpcion"
-            :userOpcion="(partida.participantes[0] === user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
+            :userOpcion="partida.usuario_2!=''||(partida.participantes[0] === user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
             :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.name[0]:'':user.displayName"></juego>
       </div>
-      <div v-if="partida.completed"
-      class="row">
-      <div class="text-center">{{partida.ganador_nombre}}</div>
+      <div v-if="partida.completed">
+        {{partida.ganador_nombre}}
       </div>
       <div class="col col-md-2">
         <!--&& user.uid!=partida.participantes[0]" -->
@@ -31,7 +30,7 @@
       </div>
       <div class="col col-md-5">
         <juego @opcion="getOpcion"
-        :userOpcion="(partida.participantes[1] === this.user.uid) ? partida.usuario_2:(partida.usuario_2 && partida.usuario_2)?partida.usuario_2:''"
+        :userOpcion="partida.usuario_1!=''||(partida.participantes[1] === user.uid) ? partida.usuario_2:(partida.usuario_1 && partida.usuario_2)?partida.usuario_2:''"
         :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" ></juego>
       </div>
     </div>
