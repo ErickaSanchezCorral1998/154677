@@ -17,9 +17,13 @@
     <div class="row tableroJuego">
 <!--partida.participantes[0] === this.user.uid?getOpcion:''-->
       <div class="col col-md-5 tablero ">
-          <juego  @opcion="partida.participantes[0] === this.user.uid?getOpcion:''"
+          <juego  @opcion="getOpcion"
             :userOpcion="(partida.participantes[0] === user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
             :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.name[0]:'':user.displayName"></juego>
+      </div>
+      <div v-if="partida.completed"
+      class="row">
+      <div class="text-center">{{partida.ganador_nombre}}</div>
       </div>
       <div class="col col-md-2">
         <!--&& user.uid!=partida.participantes[0]" -->
@@ -39,7 +43,7 @@ import Juego from '@/components/Juego/Juego'
 import fireApp from '../../config/_firebase.js'
 import Auth from '@/config/auth'
 
-const partida = fireApp.firestore().collection('juego-1')
+const partidas = fireApp.firestore().collection('juego-1')
 export default {
   name: 'Partida',
   props: ['usuario_opcion'],
@@ -62,11 +66,11 @@ export default {
       vm.user = vm.obtenerUser()
       vm.$bind('partida', partida.doc(to.params.no_partida)) */
       // vm.user = Auth.getUser()
-      vm.$bind('partida', partida.doc(to.params.no_partida))
+      vm.$bind('partida', partidas.doc(to.params.no_partida))
     })
   },
   beforeRouteUpdate (to, from, next) {
-    this.$bind('partida', partida.doc(to.params.no_partida))
+    this.$bind('partida', partidas.doc(to.params.no_partida))
     next()
   },
   firestore: {
@@ -81,7 +85,7 @@ export default {
       immediate: true,
       handler (value) {
         this.user = Auth.getUser()
-        this.$bind('partida', partida.doc(value.no_partida))
+        this.$bind('partida', partidas.doc(value.no_partida))
       }
     }
   },
@@ -110,7 +114,8 @@ export default {
         name: [this.user.displayName == null ? 'Usuario' : this.user.displayName],
         'usuario_1': ' ',
         'usuario_2': ' ',
-        'ganador': ' '
+        'ganador': ' ',
+        completed: false
       })
     },
     // Cargar los datos de la partifda del firestore
@@ -121,7 +126,7 @@ export default {
       fireApp.firestore().collection('juego-1').where('participantes', '==', this.user.uid).get().then((result) => {
         console.log('Hay partidas')
       }) */
-      partida.doc(this.partida).get().then((result) => {
+      partidas.doc(this.partida).get().then((result) => {
         console.log(result.data())
       })
     },
@@ -138,157 +143,97 @@ export default {
       let participantes = this.partida.participantes
       console.log(participantes.indexOf(this.user.uid))
       let data = {}
-      if (participantes.indexOf(this.user.uid) === 0) {
-        data = {
-          'usuario_1': opcion
-        }
-      } else {
-        data = {
-          'usuario_2': opcion
-        }
-      }
-      /*
-      if (participantes.indexOf(this.user.uid) === 0) {
-        switch (opcion) {
-          case 'tijeras':
-            console.log('Usuario 1 tijeras')
-            if (((participantes.indexOf(this.user.uid) === 1) && opcion) === 'tijeras') {
-              console.log('Empate')
-            }
-            break
-          case 'papel':
-            console.log('Usuario 1 papel')
-            break
-          case 'piedra':
-            console.log('Usuario 1 piedra')
-            break
-          default:
-            console.log('sin opcion')
-            break
-        }
-      }
-
-      if (participantes.indexOf(this.user.uid) === 1) {
-        switch (opcion) {
-          case 'tijeras':
-            console.log('Usuario 2 tijeras')
-            if (((participantes.indexOf(this.user.uid) === 0) && opcion) === 'tijeras') {
-              console.log('Empate')
-            }
-            break
-          case 'papel':
-            console.log('Usuario 2 papel')
-            break
-          case 'piedra':
-            console.log('Usuario 2 piedra')
-            break
-          default:
-            console.log('sin opcion')
-            break
-        }
-      } */
-      /*  if ((participantes.indexOf(this.user.uid) === 0) ? opcion : '' === 'tijeras') {
-        console.log('Escogio tijeras')
-      } */
-      fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(data).then((result) => {
-        if (this.partida.usuario_1 !== '' && this.partida.usuario_2 !== '') {
-          switch (this.partida.usuario_1) {
-            case 'tijeras':
-              switch (this.partida.usuario_2) {
-                case 'piedra':
-                  console.log('usuario 1 pierde')
-                  console.log('usuario 2 gana')
-                  break
-                case 'papel':
-                  console.log('usuario 1 gano')
-                  console.log('usuario 2 pierde')
-                  break
-                case 'tijeras':
-                  console.log('empatados')
-                  break
-              }
-              break
-            case 'papel':
-              switch (this.partida.usuario_2) {
-                case 'piedra':
-                  console.log('usuario 1 gana')
-                  console.log('usuario 2 pierde')
-                  break
-                case 'papel':
-                  console.log('empatados')
-                  break
-                case 'tijeras':
-                  console.log('usuario 1 pierde')
-                  console.log('usuario 2 gana')
-                  break
-              }
-              break
-            case 'piedra':
-              switch (this.partida.usuario_2) {
-                case 'piedra':
-                  console.log('empatados')
-                  break
-                case 'papel':
-                  console.log('usuario 1 pierde')
-                  console.log('usuario 2 gana')
-                  break
-                case 'tijeras':
-                  console.log('usuario 1 gana')
-                  console.log('usuario 2 pierde')
-                  break
-              }
-              break
-            default:
-              console.log('sin opcion')
-              break
+      if (!this.partida.completed) {
+        if (participantes.indexOf(this.user.uid) === 0) {
+          data = {
+            'usuario_1': opcion
+          }
+        } else {
+          data = {
+            'usuario_2': opcion
           }
         }
+      }
+      fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(data).then((result) => {
+        if (this.partida.usuario_1 !== '' && this.partida.usuario_2 !== '') {
+          this.ganar()
+        }
+      }).catch((err) => {
+        console.log(err)
       })
-
-      console.log('Mi data es', data)
     },
     ganar () {
-      switch (this.usuario_1) {
-        case 'piedra':
-          switch (this.usuario_2) {
+      let partida = {
+        completed: true,
+        ganador: '',
+        ganador_nombre: ''
+      }
+      switch (this.partida.usuario_1) {
+        case 'tijeras':
+          switch (this.partida.usuario_2) {
             case 'piedra':
-              console.log('empate')
+              partida.ganador_nombre = this.partida.name[1]
+              partida.ganador = this.partida.participantes[1]
+              console.log('usuario 1 pierde')
+              console.log('usuario 2 gana')
               break
             case 'papel':
-              console.log('perder')
+              partida.ganador_nombre = this.partida.name[0]
+              partida.ganador = this.partida.participantes[0]
+              console.log('usuario 1 gano')
+              console.log('usuario 2 pierde')
               break
             case 'tijeras':
-              console.log('ganar')
+              partida.ganador_nombre = 'Empate'
+              console.log('empatados')
               break
           }
           break
         case 'papel':
-          switch (this.usuario_2) {
+          switch (this.partida.usuario_2) {
             case 'piedra':
-              console.log('ganar')
+              partida.ganador_nombre = this.partida.name[0]
+              partida.ganador = this.partida.participantes[0]
+              console.log('usuario 1 gana')
+              console.log('usuario 2 pierde')
               break
             case 'papel':
-              console.log('empate')
+              console.log('empatados')
+              partida.ganador_nombre = 'Empate'
               break
             case 'tijeras':
-              console.log('perder')
+              partida.ganador_nombre = this.partida.name[1]
+              partida.ganador = this.partida.participantes[1]
+              console.log('usuario 1 pierde')
+              console.log('usuario 2 gana')
               break
           }
           break
-        case 'tijeras':
-          switch (this.usuario_2) {
+        case 'piedra':
+          switch (this.partida.usuario_2) {
             case 'piedra':
-              console.log('perder')
+              partida.ganador_nombre = 'Empate'
+              console.log('empatados')
               break
             case 'papel':
-              console.log('ganar')
+              partida.ganador_nombre = this.partida.name[1]
+              partida.ganador = this.partida.participantes[1]
+              console.log('usuario 1 pierde')
+              console.log('usuario 2 gana')
               break
             case 'tijeras':
-              console.log('empate')
+              partida.ganador_nombre = this.partida.name[0]
+              partida.ganador = this.partida.participantes[0]
+              console.log('usuario 1 gana')
+              console.log('usuario 2 pierde')
               break
           }
+          break
+        default:
+          console.log('sin opcion')
           break
       }
+      partidas.doc(this.$route.params.no_partida).update(partida)
     }
   }
 }
