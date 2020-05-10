@@ -17,7 +17,7 @@
     <div class="row tableroJuego">
 <!--partida.participantes[0] === this.user.uid?getOpcion:''-->
       <div class="col col-md-5 tablero ">
-          <juego  @opcion="getOpcion"
+          <juego  @opcion="(partida.participantes[0]===user.uid)?getOpcion:''"
             :userOpcion="partida.usuario_2!=''||(partida.participantes[0] === user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
             :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.name[0]:'':user.displayName"></juego>
       </div>

@@ -38,11 +38,13 @@
             <label for="tab2">Partidas disponibles</label>
             <section id="content1">
               <PartidasDisponibles></PartidasDisponibles>
+               <Partida></Partida>
             </section>
             <section id="content2">
               <label>asdasd</label>
             </section>
         </div>
+
       </div>
       </div>
       </div>
@@ -54,11 +56,13 @@
 import Auth from '@/config/auth.js'
 import Firebase from '@/config/_firebase.js'
 import PartidasDisponibles from '@/components/Juego/PartidasDisponibles'
+import Partida from '@/views/Juego/Partida'
 const partida = Firebase.firestore().collection('juego-1')
 export default {
   name: 'partidas',
   components: {
-    PartidasDisponibles
+    PartidasDisponibles,
+    Partida
   },
   beforeRouteEnter (to, from, next) {
     next(async vm => {

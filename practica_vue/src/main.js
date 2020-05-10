@@ -4,6 +4,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import Auth from './config/auth'
+import Firebase from './config/_firebase'
 import 'animate.css'
 // VueFire instalacion
 import { firestorePlugin } from 'vuefire'
@@ -12,6 +13,13 @@ import 'bootstrap/scss/bootstrap.scss'
 // Registro de pugin en vue
 Vue.use(firestorePlugin)
 Vue.config.productionTip = false
+Firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    router.push({ name: 'partidas' }).catch(err => console.log(err))
+  } else {
+    router.push({ name: 'login' }).catch(err => console.log(err))
+  }
+})
 // Metodo de comprobacion de permiso de acceso
 router.beforeEach(async (to, from, next) => {
   if (to.meta.auth) {
