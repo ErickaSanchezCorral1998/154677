@@ -19,6 +19,7 @@
           <br>
           <button class="btn btn-logout" @click="logout">Log Out</button>
           </div>
+          <Partida></Partida>
       </div>
       <div class="col columnaDer">
         <div class="row">
@@ -29,6 +30,7 @@
             @click="crearPartida"
           >Create new game</button>
           </div>
+
         </div>
 
         <div class="tab-main mx-auto columnaDer">
@@ -37,11 +39,66 @@
             <input id="tab2" type="radio" name="tabs" >
             <label for="tab2">Partidas disponibles</label>
             <section id="content1">
-              <PartidasDisponibles></PartidasDisponibles>
-               <Partida></Partida>
+              <ul class="list-group">
+                <li  v-for="partida in partidasSort"
+              :key="partida.id"
+              class="list-group-item ">
+                    <div class="row">
+                <div class="col">
+                  <h3 class="animated infinite pulse">🏆</h3>
+
+                </div>
+                <div class="col">
+                  <h4 v-if="partida.participantes.includes(user.uid)">⭐</h4>
+                </div>
+                <div
+                  v-if="partida.usuario_1==='' || partida.usuario_2===''"
+                  class="col"
+                >
+                  <h4
+                    class="animated infinite pulse"
+                    v-if="partida.usuario_1==='' && partida.participantes.indexOf(user.uid) === 0"
+                  >⏰</h4>
+                  <h4
+                    class="animated infinite pulse"
+                    v-if="partida.usuario_2==='' && partida.participantes.indexOf(user.uid) === 1"
+                  >⏰</h4>
+                </div>
+                <div
+                  v-if="partida.usuario_1===''"
+                  class="col"
+                >
+                  <h4 class="animated infinite pulse">1️⃣</h4>
+                </div>
+                <div
+                  v-if="partida.usuario_2===''"
+                  class="col"
+                >
+                  <h4 class="animated infinite pulse">2️⃣</h4>
+                </div>
+              </div>
+                </li>
+              </ul>
+
             </section>
             <section id="content2">
-              <label>asdasd</label>
+              <ul class="list-group">
+              <li
+              v-for="partida in partidasSort"
+              :key="partida.id"
+              class="list-group-item "
+            >
+            <div class="btn-group">
+                <button
+                  class="btn mb-2 btn-outline-info btn-sm animated infinite"
+                  :class="partida.names.length===1?'pulse':''"
+                  @click="$router.push({name:'partida',params:{no_partida:partida.id}}).catch(err => {})"
+                >
+                  {{partida.participantes.length===1&&!partida.participantes.includes(user.uid)  ?'Retar':'Ver'}}
+                </button>
+              </div>
+              </li>
+              </ul>
             </section>
         </div>
 
@@ -55,26 +112,16 @@
 <script lang="js">
 import Auth from '@/config/auth.js'
 import Firebase from '@/config/_firebase.js'
-import PartidasDisponibles from '@/components/Juego/PartidasDisponibles'
+import collect from 'collect.js'
 import Partida from '@/views/Juego/Partida'
-const partida = Firebase.firestore().collection('juego-1')
+const partidas = Firebase.firestore().collection('juego-1')
 export default {
   name: 'partidas',
-  components: {
-    PartidasDisponibles,
-    Partida
-  },
-  beforeRouteEnter (to, from, next) {
-    next(async vm => {
-      // vm.obtenerPartida(to.params.no_partida)
-      // vm.user = await Auth.getUser()
-      vm.$bind('user', Auth.getUser())
-      vm.user = vm.obtenerUser()
-      vm.$bind('partida', partida.doc(to.params.no_partida))
-    })
-  },
-  data () { // Variables y metodos(funciones que vamos  a utilizar)
+  data () {
     return {
+      collect,
+      partidasSel: [],
+      partidas: [],
       showError: false,
       errorMessage: '',
       errorCode: '',
@@ -84,7 +131,34 @@ export default {
       }
     }
   },
+  components: {
+    Partida
+  },
+  firestore: {
+    partidas: Firebase.firestore().collection('juego-1')
+  },
+  watch: {
+    partidas: {
+      deep: true,
+      immediate: true,
+      handler: function (part) {
+        this.user = Auth.getUser()
+        this.$bind('partida', partidas.doc(part.no_partida))
+        this.partidasSel = collect(part).sortByDesc().all()
+      }
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(async vm => {
+      // vm.obtenerPartida(to.params.no_partida)
+      // vm.user = await Auth.getUser()
+      vm.$bind('user', Auth.getUser())
+      vm.user = vm.obtenerUser()
+      vm.$bind('partida', partidas.doc(to.params.no_partida))
+    })
+  },
   mounted () {
+    this.user = Auth.getUser()
     let userC = Firebase.auth().currentUser
     this.user.nombre = userC.displayName
     this.user.photo = userC.photoURL
@@ -106,12 +180,12 @@ export default {
       // Escribe en la base de datos
       Firebase.firestore().collection('juego-1').add({
         participantes: [uid],
-        name: [this.user.displayName == null ? 'Usuario' : this.user.displayName],
+        name: [this.user.displayName == null ? 'Usuario 1' : this.user.displayName],
         'usuario_1': ' ',
         'usuario_2': ' ',
-        'ganador': ' '
+        'ganador': ' ',
+        completed: false
       })
-      this.$router.push({ name: 'juego-1/:no_partida' })
     }
   }
 }

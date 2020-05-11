@@ -2,7 +2,7 @@
 <section  class="partida">
     <h1 class="tituloJuego">{{$route.params.no_partida.replace('-',' ')}}</h1>
       <div class="justify-center">
-        <button class="btn btn-info " @click="crearPartida">Nueva Partida</button>
+       <!-- <button class="btn btn-info " @click="crearPartida">Nueva Partida</button>-->
       </div>
       <div class="row">
         <div class="col">
@@ -17,7 +17,7 @@
     <div class="row tableroJuego">
 <!--partida.participantes[0] === this.user.uid?getOpcion:''-->
       <div class="col col-md-5 tablero ">
-          <juego  @opcion="(partida.participantes[0]===user.uid)?getOpcion:''"
+          <juego  @opcion="getOpcion"
             :userOpcion="partida.usuario_2!=''||(partida.participantes[0] === user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
             :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.name[0]:'':user.displayName"></juego>
       </div>
@@ -49,13 +49,6 @@ export default {
   components: {
     Juego
   },
-  data () {
-    return {
-      partida: {},
-      partidas: [],
-      user: {}
-    }
-  },
   beforeRouteEnter (to, from, next) {
     // next(async vm => {
     next(vm => {
@@ -72,11 +65,19 @@ export default {
     this.$bind('partida', partidas.doc(to.params.no_partida))
     next()
   },
+  data () {
+    return {
+      partida: {},
+      // partidas: [],
+      user: {}
+    }
+  },
+  /*
   firestore: {
     // partidas: fireApp.firestore().collection('juego-1')
     partidas: fireApp.firestore().collection('juego-1')
 
-  },
+  }, */
   // Helper para asignar objetos o variables que necesitan ser detectados en sus cambios para ejecutar metodos
   watch: {
     '$route.params': {
@@ -90,15 +91,15 @@ export default {
   },
   mounted () {
     this.user = Auth.getUser()
-  },
-  updated (opcion) {
+  }, /*,  updated (opcion) {
     let participantes = this.partida.participantes
     if (((participantes.indexOf(this.user.uid) === 0) && opcion) === 'tijeras') {
       if (((participantes.indexOf(this.user.uid) === 0) && opcion) === 'tijeras') {
         console.log('as')
       }
     }
-  },
+  }, */
+
   methods: {
     async obtenerUser () {
       this.user = await Auth.getUser()
@@ -110,7 +111,7 @@ export default {
       // Escribe en la base de datos
       fireApp.firestore().collection('juego-1').add({
         participantes: [uid],
-        name: [this.user.displayName == null ? 'Usuario' : this.user.displayName],
+        name: [this.user.displayName == null ? 'Usuario 1' : this.user.displayName],
         'usuario_1': ' ',
         'usuario_2': ' ',
         'ganador': ' ',

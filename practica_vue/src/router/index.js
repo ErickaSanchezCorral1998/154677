@@ -68,14 +68,6 @@ const routes = [
       }
     }]
   }
-  // {
-  //   path: '/partidas',
-  //   name: 'partidas',
-  //   component: Partidas,
-  //   meta: {
-  //     auth: true
-  //   }
-  // }
 ]
 
 const router = new VueRouter({
