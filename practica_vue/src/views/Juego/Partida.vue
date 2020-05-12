@@ -1,40 +1,53 @@
 <template>
-<section  class="partida">
+<section >
+  <img
+      class="logoflotante"
+      src="../../assets/KACHIPU-07.png"
+    >
+    <div class="logogame">
+      <ProfileFormMain></ProfileFormMain>
+      <img
+        class="logogameimg"
+        src="../../assets/KACHIPU-12.png"
+      >
+    </div>
+    <div class="p-5">
     <h1 class="tituloJuego">{{$route.params.no_partida.replace('-',' ')}}</h1>
-      <div class="justify-center">
-      <button class="btn btn-info " @click="crearPartida">Nueva Partida</button>
-      </div>
-      <div class="row">
-        <div class="col">
-          <!--<div  v-if="!partida && !user">
-              Cargando
-          </div>-->
-        </div>
-      </div>
-  <!--    <div v-if="partida && user">
-
-      </div>-->
-    <div class="row tableroJuego">
-<!--partida.participantes[0] === this.user.uid?getOpcion:''-->
-      <div class="col col-md-5 tablero ">
-          <juego  @opcion="getOpcion"
-            :userOpcion="partida.usuario_2!=''||(partida.participantes[0] === user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
-            :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.name[0]:'':user.displayName"></juego>
+      <div class="row row-fluid">
+        <div class="col ml-3">
+      <button class="btn btn-new-partidas"  @click="crearPartida">Nueva Partida</button>
       </div>
       <div v-if="partida.completed">
         {{partida.ganador_nombre}}
       </div>
-      <div class="col col-md-2">
+       <div class="col col-md-2">
         <!--&& user.uid!=partida.participantes[0]" -->
         <button  v-if="!partida.name[1]"  class="btn" @click="retar">💰</button>
       </div>
-      <div class="col col-md-5">
-        <juego @opcion="getOpcion"
+      <div class="col mr-3">
+          <div class="contadores">
+            <h5>0/0</h5>
+          </div>
+        </div>
+      </div>
+<div class="row mr-3">
+  <div class="col col-sm-12 col-lg-8 p-2 bg-light">
+    <juego  @opcion="getOpcion"
+            :userOpcion="partida.usuario_2!=''||(partida.participantes[0] === user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
+            :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.name[0]:'':user.displayName"></juego>
+  </div>
+<div
+          class="col col-sm-12 col-lg-4 p-2"
+          style="background-color:black;"
+        >
+      <juego @opcion="getOpcion"
         :userOpcion="partida.usuario_1!=''||(partida.participantes[1] === user.uid) ? partida.usuario_2:(partida.usuario_1 && partida.usuario_2)?partida.usuario_2:''"
         :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" ></juego>
-      </div>
+</div>
+</div>
+
+   <b> {{partida}}</b>
     </div>
-    {{partida}}
   </section>
 </template>
 <script lang="js">
@@ -48,6 +61,9 @@ export default {
   props: ['usuario_opcion'],
   components: {
     Juego
+  },
+  beforeCreate: function () {
+    document.body.className = 'game'
   },
   beforeRouteEnter (to, from, next) {
     // next(async vm => {
@@ -241,14 +257,5 @@ export default {
 }
 </script>
 <style lang="scss">
-  .partida{
-    background-color: rgba(34, 185, 160, 0.575);
-    padding: 50px;
-  }
-.tituloJuego{
-  color: #fff;;
-}
-.tableroJuego{
-  padding: 50px;;
-}
+@import "./../../components/recursos/css/game.css";
 </style>
