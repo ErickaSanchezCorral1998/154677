@@ -2,7 +2,7 @@
 <section  class="partida">
     <h1 class="tituloJuego">{{$route.params.no_partida.replace('-',' ')}}</h1>
       <div class="justify-center">
-       <!-- <button class="btn btn-info " @click="crearPartida">Nueva Partida</button>-->
+      <button class="btn btn-info " @click="crearPartida">Nueva Partida</button>
       </div>
       <div class="row">
         <div class="col">
@@ -41,7 +41,7 @@
 import Juego from '@/components/Juego/Juego'
 import fireApp from '../../config/_firebase.js'
 import Auth from '@/config/auth'
-
+import collect from 'collect.js'
 const partidas = fireApp.firestore().collection('juego-1')
 export default {
   name: 'Partida',
@@ -69,7 +69,8 @@ export default {
     return {
       partida: {},
       // partidas: [],
-      user: {}
+      user: {},
+      collect
     }
   },
   /*
@@ -109,24 +110,24 @@ export default {
       this.user = Auth.getUser()
       let uid = this.user.uid
       // Escribe en la base de datos
-      fireApp.firestore().collection('juego-1').add({
+      partidas.add({
         participantes: [uid],
         name: [this.user.displayName == null ? 'Usuario 1' : this.user.displayName],
-        'usuario_1': ' ',
-        'usuario_2': ' ',
+        'usuario_1': '',
+        'usuario_2': '',
         'ganador': ' ',
         completed: false
       })
     },
     // Cargar los datos de la partifda del firestore
-    obtenerPartida () {
+    obtenerPartida (partida) {
       /* fireApp.firestore().collection('juego-1').doc(this.partida).get().then((result) => {
         console.log(result.data())
       })
       fireApp.firestore().collection('juego-1').where('participantes', '==', this.user.uid).get().then((result) => {
         console.log('Hay partidas')
       }) */
-      partidas.doc(this.partida).get().then((result) => {
+      partidas.doc(partida).get().then((result) => {
         console.log(result.data())
       })
     },
@@ -137,7 +138,7 @@ export default {
       // Escribe en la base de datos
       this.partida.name.push(this.user.displayName == null ? 'Usuario' : this.user.displayName)
       this.partida.participantes.push(this.user.uid)
-      fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(this.partida)
+      partidas.doc(this.$route.params.no_partida).update(this.partida)
     },
     getOpcion (opcion) {
       let participantes = this.partida.participantes
@@ -154,7 +155,8 @@ export default {
           }
         }
       }
-      fireApp.firestore().collection('juego-1').doc(this.$route.params.no_partida).update(data).then((result) => {
+      console.log('Hola', this.partida.usuario_1)
+      partidas.doc(this.$route.params.no_partida).update(data).then((result) => {
         if (this.partida.usuario_1 !== '' && this.partida.usuario_2 !== '') {
           this.ganar()
         }

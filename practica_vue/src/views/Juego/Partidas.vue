@@ -9,6 +9,7 @@
         <div class="row">
       <div class="col-4-lg col-12-md col-12-xs datos">
         <div class="infoUsuario">
+          <button @click="$router.push({name:'partida',params:{no_partida:A6YA43QKhj7zSSB9KVKP}}).catch(err => {})">Hola</button>
               <img  class="profilePhoto mx-auto rounded-circle" :src="user.photo"/><br>
 
           <label class="mx-auto usuarioNombre">{{user.nombre}}</label>
@@ -40,7 +41,7 @@
             <label for="tab2">Partidas disponibles</label>
             <section id="content1">
               <ul class="list-group">
-                <li  v-for="partida in partidasSort"
+                <li  v-for="partida in partidasSel"
               :key="partida.id"
               class="list-group-item ">
                     <div class="row">
@@ -75,20 +76,10 @@
                   class="col"
                 >
                   <h4 class="animated infinite pulse">2️⃣</h4>
-                </div>
-              </div>
-                </li>
-              </ul>
-
-            </section>
-            <section id="content2">
-              <ul class="list-group">
-              <li
-              v-for="partida in partidasSort"
-              :key="partida.id"
-              class="list-group-item "
-            >
-            <div class="btn-group">
+                   <strong>Player 1: </strong> {{partida.names[0]}}
+              <br>
+              <strong>Player 2: </strong> {{partida.names[1]?partida.names[1]:'Sin Retador'}}
+                      <div class="btn-group">
                 <button
                   class="btn mb-2 btn-outline-info btn-sm animated infinite"
                   :class="partida.names.length===1?'pulse':''"
@@ -97,8 +88,14 @@
                   {{partida.participantes.length===1&&!partida.participantes.includes(user.uid)  ?'Retar':'Ver'}}
                 </button>
               </div>
-              </li>
+                </div>
+              </div>
+                </li>
               </ul>
+
+            </section>
+            <section id="content2">
+
             </section>
         </div>
 
@@ -144,7 +141,7 @@ export default {
       handler: function (part) {
         this.user = Auth.getUser()
         this.$bind('partida', partidas.doc(part.no_partida))
-        this.partidasSel = collect(part).sortByDesc().all()
+        this.partidasSel = collect(part).sortByDesc('participantes').all()
       }
     }
   },

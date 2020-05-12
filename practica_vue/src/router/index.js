@@ -46,28 +46,36 @@ const routes = [
       auth: true
     }
   },
-  // {
-  //   // Ruta dinamica, donde num de partida puede ser diferente para cargar
-  //   path: '/juego-1/:no_partida',
-  //   name: 'partida',
-  //   component: Partida
-  // },
+  {
+    // Ruta dinamica, donde num de partida puede ser diferente para cargar
+    path: '/juego-1/:no_partida',
+    name: 'partida',
+    component: Partida
+  },
   {
     path: '/partidas',
     name: 'partidas',
     component: Partidas,
     meta: {
       auth: true
-    },
-    children: [{
-      path: ':no_partida',
-      name: 'partida',
-      component: Partida,
-      meta: {
-        auth: true
-      }
-    }]
+    }
   }
+  // {
+  //   path: '/partidas',
+  //   name: 'partidas',
+  //   component: Partidas,
+  //   meta: {
+  //     auth: true
+  //   },
+  //   children: [{
+  //     path: ':no_partida',
+  //     name: 'partida',
+  //     component: Partida,
+  //     meta: {
+  //       auth: true
+  //     }
+  //   }]
+  // }
 ]
 
 const router = new VueRouter({
