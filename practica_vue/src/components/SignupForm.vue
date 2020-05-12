@@ -1,63 +1,45 @@
 <template>
   <section>
-    <div class="text-left">
-      <h3 class="titulo">We are <b class="negrita">aroma</b>
-      </h3>
-      <br>
-      <h6 class="titulo2">Welcome, Please register</h6>
-      <h6 class="titulo2">your account</h6>
-      <alerts-component v-if="showError" :message="errorMessage" :code="errorCode"></alerts-component>
+        <h3 class="title">JOIN US</h3>
+   <h1><strong> AND PLAY!</strong></h1>
+    <div class="col mb-3">
+        <a class="subtitle text-center">
+        </a>
     </div>
-    <br>
-    <br>
-    <div class="col form-group">
-      <input
-        type="text"
-        placeholder="User"
-        class="form-control mb-2 "
-        v-model="user.nombre"
-      >
-      <input
-        type="email"
-        placeholder="Email"
-        class="form-control mb-2 "
-        v-model="user.email" @keypress="showError=false"
-      >
-      <input
-        type="password"
-        placeholder="Password"
-        class="form-control mb-2"
-        v-model="user.password"
-        @keypress="showError=false"
-        @keypress.enter="signup"
-      >
-      <br>
-      <div class="form-group">
-        <div class="row">
-          <div class="col">
-            <router-link
-              :to="{name:'login'}"
-              class="loginLink"
-            >Already acount? <i>Login</i></router-link>
-          </div>
-        </div>
-      </div>
-      <!--Handlerbars templating -  pasar datos de js a html-->
-      <!-- {{user.password}}-->
-    </div>
-    <br>
-    <div class="form-group">
-      <div class="row">
-        <div class="col">
-          <button
-            class="btn btn-pink btn-block"
-            @click="signup"
-          >Sign up</button>
-        </div>
-      </div>
-      <br>
+    <div class="col">
+
+        <input type="text" name="name" class="form-control mb-3" placeholder="Name" v-model="user.nombre">
+        <input type="email" name="email" class="form-control mb-3" placeholder="E-mail" v-model="user.email"
+            @keypress="showError = false">
+        <input type="password" name="password" class="form-control mb-3" placeholder="********" v-model="user.password"
+            @keypress.enter="signup">
+        <div class="alert-campos" id="alert-campos">Todos los campos son obligatorios</div>
+
     </div>
 
+    <div class="form-group mb-3">
+
+        <alerts-component v-if="showError" :message="errorMessage" :code="errorCode">
+        </alerts-component>
+
+        <div class="row">
+
+        </div>
+    </div>
+    <div class="form-group mb-2">
+        <div class="row">
+            <div class="col text-center">
+                <button class="btn btn_success btn-block btn-black btn-dark" @click="signup">SIGN UP</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="col subtitle">
+
+    </div>
+    <div class="col">
+        <button class="btn text-light sign-up " @click="login" > <small class="">Already have an account?</small></button>
+    </div>
   </section>
 </template>
 <script lang="js">
@@ -98,16 +80,13 @@ export default {
         this.errorMessage = error.message
         this.errorCode = error.code
       })
+    },
+    login () {
+      this.$router.push({ name: 'login' })
     }
   }
 }
 </script>
 <style lang="scss">
-.loginLink {
-  color: #ffd7da;
-  &:hover,
-  &:active {
-    color: #ceaeb0;
-  }
-}
+@import "./recursos/css/signup.css";
 </style>

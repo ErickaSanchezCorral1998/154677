@@ -1,71 +1,67 @@
 <template>
-  <section class="fondoForm">
-    <div class="text-left">
-      <h3 class="titulo">We are <b class="negrita">DDMI</b>
-      </h3>
-      <br>
-      <h6 class="titulo2">Welcome Back, Please login</h6>
-      <h6 class="titulo2">to your account</h6>
-      <!--Lo utilizamos como etiqueta de html-->
-      <alerts-component v-if="showError" :message="errorMessage" :code="errorCode"></alerts-component>
-    </div>
-    <br>
-    <br>
-    <div class="col form-group">
-      <input
-        type="email"
-        placeholder="Email address"
-        class="form-control mb-2 "
-        v-model="user.email"
-        @keypress="showError=false"
-      >
-      <input
-        type="password"
-        placeholder="Password"
-        class="form-control mb-2"
-        v-model="user.password"
-        @keypress.enter="login"
-        @keypress="showError=false"
-      >
-      <!--Handlerbars templating -  pasar datos de js a html-->
-      <!-- {{user.password}}-->
-    </div>
-    <br>
-    <div class="form-group m5">
-      <div class="row">
-        <div class="col text-left">
-          <input
-            id="Rem"
-            type="checkbox"
-          >
-          <label
-            for="Rem"
-            class="input-rem"
-          >Remember me</label>
-        </div>
-        <div class="col text-right">
-          <button class="btn btn-Forgot">Forgot password?</button>
-        </div>
-      </div>
-    </div>
-    <br>
-    <div class="form-group">
+ <section class="formulario">
+    <h3 class="title"><strong>WANNA<br>PLAY?</strong></h3>
 
+    <div class="col mb-3">
+      <a class="subtitle text-center text-light">
+
+      </a>
+    </div>
+    <div class="col">
+      <small class="text-light">Name:</small>
+      <input class="form-control mb-3" name="email" type="email" placeholder="E-mail" v-model="user.email" @keypress="showError=false">
+      <small class="text-light">Password</small>
+      <input class="form-control mb-3" name="password" type="password" placeholder="********" v-model="user.password" @keypress.enter="login" @keypress="showError=false">
+
+      <!-- Handler templating -->
+      <!--{{user.password}}-->
+      <!--{{1+1}}-->
+
+    </div>
+    <div class="form-group mb-3">
+      <div class="row">
+        <!-- <div class="col">
+          <div class="row">
+            <div class="col-md-2">
+              <input type="checkbox" />
+            </div>
+            <div class="col">
+              <small>Remember me</small>
+            </div>
+          </div>
+
+        </div>-->
+        <!--<div class="col">
+          <small>Forgot password?</small>
+        </div>-->
+      </div>
+    </div>
+    <div class="form-group mb-2">
+      <!--<div
+        class="alert alert-danger"
+        role="alert"
+        id="alert-error"
+      >
+        <strong></strong> <a
+          href="#"
+          class="alert-link"
+        >E-mail or password are incorrect </a> Try again.
+      </div>-->
+      <alerts-component v-if="showError" :message="errorMessage" :code="errorCode">
+      </alerts-component>
       <div class="row">
         <div class="col">
-          <button
-            class="btn btn-pink btn-block"
-            @click="login"
-          >Login</button>
+          <button class="btn btn_success btn-block btn-black btn-dark" @click="login">Login</button>
         </div>
-        <div class="col">
-          <button
-            class="btn btn-pink2 btn-block"
-            @click="signup"
-          >Sign up</button>
-        </div>
+
       </div>
-      <br>
+    </div>
+    <div class="col subtitle">
+
+    </div>
+    <div class="col">
+      <button class="btn btn-gray sign-up" @click="signup"><small>Don't have an account?</small></button>
+
     </div>
 
   </section>
@@ -126,57 +122,5 @@ export default {
 }
 </script>
 <style lang="scss">
-//Letras
-.titulo {
-  color: #eb7b7e;
-}
-.negrita {
-  color: #cc7073;
-}
-.titulo2 {
-  color: #f6bdbe;
-  font-size: 15px;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-}
-//Botones
-.btn.btn-pink {
-  background: #ff6c70;
-  color: white;
-  &:hover {
-    color: white;
-    background-color: #d3595d;
-  }
-}
-.btn.btn-pink2 {
-  background-color: #fdcdd0;
-  color: white;
-  &:hover {
-    background-color: #dbb1b4;
-    color: white;
-  }
-}
-#Rem {
-  margin-top: 10px;
-}
-.input-rem {
-  color: #ffd7da;
-}
-.btn.btn-Forgot {
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 0px;
-  color: #dddcdf;
-  &:hover {
-    color: #b9b8bb;
-  }
-}
-//Input
-.mb-2 {
-  color: #a8a7ad;
-
-  &:hover,
-  &:active {
-    border-bottom: 2px solid #fe6c72;
-  }
-}
+@import "./recursos/css/login.css";
 </style>

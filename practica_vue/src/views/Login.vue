@@ -1,21 +1,25 @@
-<template >
-  <!--Container nos da un ancho maximo de 1140px-->
-  <div :style="{'background-color':'#fefcfd', 'background-size': 'cover', 'height':'88.7vh'}">
-    <div class="container">
-      <div
-        class="card"
-        style="border-color: #ffebeb"
-      >
-        <div class="row no-gutters">
-          <div class="col-md-6">
-            <LoginForm class="loginForm"></LoginForm>
+<template>
+  <div class="login container">
+    <div class="p">
+      <!--  Soy el login  -->
+      <div class="row">
+        <div class="col-lg-6 d-none d-lg-block bg-light">
+          <div class="img">
+            <table
+              class="login"
+              style="height: 100%; width:100%;"
+            >
+              <tbody>
+                <tr>
+                </tr>
+              </tbody>
+            </table>
+
           </div>
-          <div class="col-md-6">
-            <img
-              src="@/assets/pexels-photo-1596569.jpeg"
-              class="card-img loginImg .img-fluid. max-width: 100%; and height: >auto"
-            />
-          </div>
+        </div>
+        <div class="col-lg-6 bg-dark">
+          <!-- Invocamos el componente para su visualizacion en nuestro View-->
+          <LoginForm class="login-form"></LoginForm>
         </div>
       </div>
     </div>
@@ -29,25 +33,12 @@ export default {
   name: 'login',
   components: {
     LoginForm
+  },
+  beforeCreate: function () {
+    document.body.className = 'login'
   }
 }
 </script>
 <style lang="scss">
-.card {
-  border: 0px;
-}
-.loginForm {
-  margin: 60px;
-}
 
-@media (max-width: 576px) {
-  .loginImg {
-    display: none;
-  }
-}
-@media (max-width: 768px) {
-  .loginImg {
-    display: none;
-  }
-}
 </style>
