@@ -15,7 +15,7 @@ Vue.use(firestorePlugin)
 Vue.config.productionTip = false
 Firebase.auth().onAuthStateChanged(user => {
   if (user) {
-    router.push({ name: 'partidas' }).catch(err => console.log(err))
+    router.push({ name: 'partida' }).catch(err => console.log(err))
   } else {
     router.push({ name: 'login' }).catch(err => console.log(err))
   }

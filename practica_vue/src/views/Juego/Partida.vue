@@ -127,7 +127,7 @@ export default {
       fireApp.firestore().collection('juego-1').where('participantes', '==', this.user.uid).get().then((result) => {
         console.log('Hay partidas')
       }) */
-      partidas.doc(this.partida).get().then((result) => {
+      partidas.doc(partida).get().then((result) => {
         console.log(result.data())
       })
     },

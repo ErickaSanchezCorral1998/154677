@@ -1,0 +1,56 @@
+body.game {
+    background-image: url(../../../assets/KACHIPU-22.png);
+  }
+  .logoflotante {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    height: 100px;
+  }
+  .logogame {
+    width: 100%;
+    margin: auto;
+    padding: 0px;
+    margin: 0px;
+    height: auto;
+  }
+  .logogame .logogameimg {
+    max-width: 150px;
+    float: right;
+    display: none;
+  }
+  .btn-new-partidas {
+    background-color: black !important;
+    float: left;
+    color: white !important;
+    border-radius: 0% !important;
+    border: 2px solid black !important;
+  }
+  .btn-new-partidas:hover {
+    background-color: transparent !important;
+  }
+  .contadores {
+    background-color: black;
+    float: right;
+    width: 150px;
+    height: 40px;
+    color: white;
+  }
+  .contadores h5 {
+    margin-top: 5px;
+  }
+  .usuario {
+    color: #344093;
+    font-weight: bold;
+  }
+  .opciones {
+    background: transparent;
+    border: solid yellow 1px;
+  }
+  .opciones:hover {
+    background: whitesmoke;
+  }
+  .opcion:hover {
+    background-color: yellow !important;
+  }
+  
