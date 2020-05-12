@@ -27,10 +27,12 @@
 // @ is an alias to /src
 
 import ProfileForm from '@/components/ProfileForm'
+import Ronda from '@/components/Juego/Ronda'
 export default {
   name: 'profile',
   components: {
-    ProfileForm
+    ProfileForm,
+    Ronda
   },
   data () { // Variables y metodos(funciones que vamos  a utilizar)
     return {

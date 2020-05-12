@@ -88,7 +88,7 @@ export default {
         phoneNumber: this.user.phone
       }).then((result) => {
         console.log(result)
-        return alert(`Usuario actualizado`)
+        this.$router.push({ name: 'partidas' })
       }).catch((error) => {
         console.table(error)
         this.showError = true
