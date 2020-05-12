@@ -1,0 +1,45 @@
+body.main {
+    background-image: url(../../../assets/KACHIPU-30.png) !important;
+  }
+  div.left {
+    height: auto;
+    display: flex;
+    align-items: center;
+  }
+  div.contenedor {
+    height: auto;
+    width: 100%;
+  }
+  div.new {
+    width: 100%;
+    height: 250px;
+    max-height: 350px;
+    background-image: url(../../../assets/logo.png);
+    background-size: contain;
+    background-position: center top;
+    background-repeat: no-repeat;
+  }
+  button.btn-create {
+    background-color: #344093;
+    border-radius: 0%;
+    color: white;
+    font-weight: bold;
+    border: 2px solid #344093;
+  }
+  button.btn-create:hover {
+    background-color: gainsboro;
+    border: 2px solid black;
+    color: black;
+  }
+  button.btn-edit {
+    padding: 0;
+    border: 0px !important;
+    font-size: 8pt;
+  }
+  button.btn-edit:hover {
+    color: #344093;
+  }
+  h6 {
+    color: white;
+  }
+  

@@ -17,16 +17,16 @@
         <div class="col ml-3">
       <button class="btn btn-new-partidas"  @click="crearPartida">Nueva Partida</button>
       </div>
-      <div v-if="partida.completed">
-        {{partida.ganador_nombre}}
-      </div>
-       <div class="col col-md-2">
+
+      <div class="col col-md-2">
         <!--&& user.uid!=partida.participantes[0]" -->
         <button  v-if="!partida.name[1]"  class="btn" @click="retar">💰</button>
       </div>
       <div class="col mr-3">
           <div class="contadores">
-            <h5>0/0</h5>
+            <div v-if="partida.completed">
+              <h5> G: {{partida.ganador_nombre}}</h5>
+            </div>
           </div>
         </div>
       </div>

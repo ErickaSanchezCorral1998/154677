@@ -46,19 +46,27 @@ const routes = [
       auth: true
     }
   },
-  {
+  /* {
     // Ruta dinamica, donde num de partida puede ser diferente para cargar
     path: '/juego-1/:no_partida',
     name: 'partida',
     component: Partida
-  },
+  }, */
   {
-    path: '/partidas',
+    path: '/juego-1',
     name: 'partidas',
     component: Partidas,
     meta: {
       auth: true
-    }
+    },
+    children: [{
+      path: ':no_partida',
+      name: 'partida',
+      component: Partida,
+      meta: {
+        auth: true
+      }
+    }]
   }
   // {
   //   path: '/partidas',

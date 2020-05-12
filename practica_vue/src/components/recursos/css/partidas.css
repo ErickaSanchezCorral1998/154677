@@ -1,0 +1,50 @@
+.btn.btn-edit {
+    border: #fff solid 3px;
+    color: #ffffff;
+  }
+  
+  .tab-main section {
+    display: none;
+  }
+  .tab-main section {
+    margin: 20px;
+  }
+  .tab-main input {
+    display: none;
+  }
+  
+  .tab-main label {
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: lenpmft;
+    color: #344093;
+    letter-spacing: 1px;
+    background: bottom;
+    font-size: 13pt;
+    font-weight: bolder;
+    text-transform: uppercase;
+  }
+  
+  .tab-main label:before {
+    font-weight: normal;
+    opacity: 0;
+  }
+  
+  .tab-main label:hover {
+    cursor: pointer;
+  }
+  
+  .tab-main input:checked + label {
+    color: yellow;
+    border-bottom: 2px solid;
+    font-size: 13pt;
+    font-weight: bolder;
+    text-transform: uppercase;
+  }
+  
+  .tab-main #tab1:checked ~ #content1,
+  .tab-main #tab2:checked ~ #content2 {
+    display: block;
+  }
+  
