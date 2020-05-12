@@ -1,32 +1,22 @@
-<template >
-  <!--Container nos da un ancho maximo de 1140px-->
-  <div :style="{'background-color':'#fefcfd', 'background-size': 'cover', 'height':'88.7vh'}">
-    <div class="container">
-      <div
-        class="card"
-        style="border-color: #ffebeb"
-      >
-      <br>
-      <h3 class="titulo">Edit profile</h3>
-      <br>
-        <div class="row no-gutters">
-          <div class="col-md-6 colIzqPerfil">
-            <img  class="profilePhotoEdit mx-auto" :src="user.photo"/>
-            <br>
-            <label class="mx-auto usuarioNombre">{{user.nombre}}</label>
-            <br>
-            <div class="row">
-              <div class="col-3"></div>
-              <div class="col-6 justify-center">
-                <button class="btn btn-pink2 btn-block" @click="logout">Log Out</button>
-                <br>
-                <br>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <ProfileForm class="loginForm"></ProfileForm>
-          </div>
+<template>
+  <div class="profile container">
+
+    <div class="p">
+      <div class="row">
+
+        <div style="width:100%;">
+          <router-link :to="{name:'partidas'}"> <button class="btn back">BACK</button></router-link><br>
+        </div>
+        <div class="col-lg-5 mt">
+          <ProfileForm class="login-form"></ProfileForm>
+        </div>
+        <div
+          class="col-lg-7 pt mt"
+          style="background-color:#344093"
+        >
+          <h3>RECORD</h3>
+          <Ronda></Ronda>
+          <button class="btn btn-create-new">CREATE NEW</button>
         </div>
       </div>
     </div>
@@ -35,8 +25,7 @@
 
 <script lang="js">
 // @ is an alias to /src
-import Auth from '@/config/auth.js'
-import Firebase from '@/config/_firebase.js'
+
 import ProfileForm from '@/components/ProfileForm'
 export default {
   name: 'profile',
@@ -54,47 +43,11 @@ export default {
       }
     }
   },
-  mounted () {
-    let userC = Firebase.auth().currentUser
-    this.user.nombre = userC.displayName
-    this.user.photo = userC.photoURL
-  },
-  updated () {
-    let userC = Firebase.auth().currentUser
-    this.user.nombre = userC.displayName
-    this.user.photo = userC.photoURL
-  },
-  methods: {
-    name: 'Profile',
-    logout () {
-      return Auth.logOut()
-    }
+  beforeCreate: function () {
+    document.body.className = 'profile'
   }
 }
 </script>
 <style lang="scss">
-.card {
-  border: 0px;
-}
-.loginForm {
-  margin: 60px;
-}
-.colIzqPerfil{
-  background-color: #eb7b7e;
-}
-.profilePhotoEdit{
- width: 40%;
- margin: 30px;
- border: 3px solid #fff;
-}
-@media (max-width: 576px) {
-  .loginImg {
-    display: none;
-  }
-}
-@media (max-width: 768px) {
-  .loginImg {
-    display: none;
-  }
-}
+
 </style>

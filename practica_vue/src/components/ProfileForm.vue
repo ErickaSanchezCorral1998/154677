@@ -1,49 +1,46 @@
 <template>
-  <section>
-    <div class="row">
-      <alerts-component v-if="showError" :message="errorMessage" :code="errorCode"></alerts-component>
-              <div class="col-3-lg col-6-md col-6-sm">
-                <span class="spanText">Name</span>
-              </div>
-              <div class="col">
-              <input  type="text" placeholder="User" class="form-control mb-2 nameUser text-center"
-              v-model="user.nombre">
-              </div>
-            </div>
-      <div class="row">
+  <section class="section">
+      <a class="subtitle text-center">
+    <h6 class="title">Hello {{user&&user.nombre?user.nombre:'Sin Nombre'}}</h6>
+    <img class="img-fluid w-50 h-50 m-3" :src="user.photo">
+  </a>
+  <h4>EDIT PROFILE</h4>
+    <alerts-component v-if="showError" :message="errorMessage" :code="errorCode"></alerts-component>
+    <div class="col">
 
-              <div class="col-3-lg col-6-md col-6-sm">
-                <span class="spanText">Email</span>
-              </div>
-              <div class="col">
-                <input  type="text" v-model="user.emailUser" class="form-control mb-2 text-center" >
-              </div>
-            </div>
-            <br>
-            <div class="row">
-              <div class="col-3-lg col-6-md col-6-sm">
-                <span class="spanText">Phone </span>
-              </div>
-              <div class="col">
-              <input  type="text" v-model="user.phone" class="form-control mb-2 text-center" >
-              </div>
-            </div>
-            <br>
-                  <div class="row">
-              <div class="col-3-lg col-6-md col-6-sm">
-                <span class="spanText">Photo<br> URL</span>
-              </div>
-              <div class="col">
-                <input type="text" v-model="user.photo" class="form-control mb-2 text-center" >
-              </div>
-            </div>
-            <br>
-            <div class="row">
-              <div class="col-3"></div>
-              <div class="col-6 justufy-center">
-                <button class="btn btn-pink btn-block " @click="updateProfile">Update profile</button>
-              </div>
-            </div>
+      <br>
+      <small class="small">Name:</small>
+      <input class="form-control mb-2" name="name" type="text" placeholder="Name" v-model="user.nombre">
+
+      <!--<input class="form-control mb-3" name="email" type="email" placeholder="E-mail" v-model="user.email">-->
+      <small class="small">Url Picture:</small>
+      <input placeholder="Ex: http://pic.com" class="form-control mb-2 " type="text" v-model="user.photo">
+
+    </div>
+        <div class="form-group mb-3">
+      <div class="row">
+      </div>
+    </div>
+    <div class="form-group mb-2">
+      <div class="row">
+        <div class="col">
+
+        </div>
+
+      </div>
+    </div>
+        <div class="form-group mb-2">
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-update" @click="updateProfile"><small><strong class="strong">UPDATE</strong></small></button>
+<br>
+<br>
+        <button class="btn" @click="logout"><small><strong class="strong">LOG OUT</strong></small></button>
+        </div>
+
+      </div>
+    </div>
+
 </section>
 </template>
 <script lang="js">
@@ -102,11 +99,6 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-  .spanText{
-      color: #f6bdbe;
-  font-size: 18px;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  }
+<style lang="scss">@import "./recursos/css/profile.css";
+
 </style>
