@@ -1,4 +1,5 @@
 <template >
+<section>
     <div class="container">
       <div>
       <div class="row">
@@ -6,36 +7,37 @@
         <div class="contenedor">
           <div class="new"></div>
           <button class="btn btn-create" @click="crearPartida">NEW GAME</button>
-          <button class="btn btn-create" @click="$router.push({name:'partidas',params:{no_partida:this.hola.holasad}}).catch(err => {})">Ver</button>
-          </div>
+        </div>
+        <router-view></router-view>
       </div>
         <div class="col-lg-7 mt pt" style="background-color:#000; min-height:400px;">
           <ProfileFormMain></ProfileFormMain>
-          <Partida class="mt" style="background-color:transparent"></Partida>
+          <PartidasDisponibles class="mt" style="background-color:transparent"/>
+
       </div>
       </div>
     </div>
     </div>
+    </section>
 </template>
 
 <script lang="js">
 import Auth from '@/config/auth.js'
 import ProfileFormMain from '@/components/ProfileFormMain'
 import Firebase from '@/config/_firebase.js'
-import collect from 'collect.js'
-import Partida from '@/views/Juego/Partida'
-const partidas = Firebase.firestore().collection('juego-1')
+import moment from 'moment'
+// import Partida from '@/views/Juego/Partida'
+import PartidasDisponibles from '@/components/Juego/PartidasDisponibles'
 
 export default {
   name: 'partidas',
   data () {
     return {
-      hola: {
-        holasad: '8WPqZ9bhB8eR3d2XKOIb'
-      } }
+      moment
+    }
   },
   components: {
-    Partida,
+    PartidasDisponibles,
     ProfileFormMain
   },
   beforeCreate: function () {
@@ -43,29 +45,6 @@ export default {
   },
   mounted () {
     this.user = Auth.getUser()
-  },
-  firestore: {
-    partidas: Firebase.firestore().collection('juego-1')
-  },
-  watch: {
-    partidas: {
-      deep: true,
-      immediate: true,
-      handler: function (part) {
-        this.user = Auth.getUser()
-        this.$bind('partida', partidas.doc(part.no_partida))
-        this.partidasSel = collect(part).sortByDesc('participantes').all()
-      }
-    }
-  },
-  beforeRouteEnter (to, from, next) {
-    next(async vm => {
-      // vm.obtenerPartida(to.params.no_partida)
-      // vm.user = await Auth.getUser()
-      vm.$bind('user', Auth.getUser())
-      vm.user = vm.obtenerUser()
-      vm.$bind('partida', partidas.doc(to.params.no_partida))
-    })
   },
   methods: {
 
@@ -76,6 +55,7 @@ export default {
     crearPartida () {
       this.user = Auth.getUser()
       let uid = this.user.uid
+      let now = moment().toDate()
       // Escribe en la base de datos
       Firebase.firestore().collection('juego-1').add({
         participantes: [uid],
@@ -83,6 +63,7 @@ export default {
         'usuario_1': ' ',
         'usuario_2': ' ',
         'ganador': ' ',
+        created_at: now,
         completed: false
       })
     }

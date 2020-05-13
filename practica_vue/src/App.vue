@@ -4,7 +4,7 @@
       <router-link to="/">Home</router-link> |
       <!--<router-link :to="{name:'about'}">About</router-link>-->
       <router-link :to="{name:'partidas'}">Partidas</router-link>
-      <router-link to="/juego-1/DZ5Nb39Qofk7Yp0v7bnK">Juego</router-link>
+      <router-link to="/juego-1/2XLUTgFnDPblKg065IRi">Juego</router-link>
       <!--Al agregar los dos puntos se convierte en una funcion de js-->
     </div>
     <router-view />

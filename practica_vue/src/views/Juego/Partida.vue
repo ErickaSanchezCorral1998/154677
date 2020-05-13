@@ -1,5 +1,5 @@
 <template>
-<section >
+<section v-if="collect(partida).isNotEmpty()" >
   <img
       class="logoflotante"
       src="../../assets/KACHIPU-07.png"
@@ -34,7 +34,7 @@
   <div class="col col-sm-12 col-lg-8 p-2 bg-light">
     <juego  @opcion="getOpcion"
             :userOpcion="partida.usuario_2!=''||(partida.participantes[0] === user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
-            :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.name[0]:'':user.displayName"></juego>
+            :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.names[0]:'':user.displayName"></juego>
   </div>
 <div
           class="col col-sm-12 col-lg-4 p-2"
@@ -46,7 +46,7 @@
 </div>
 </div>
 
-   <b> {{partida}}</b>
+<b> {{partida}}</b>
     </div>
   </section>
 </template>
@@ -55,6 +55,7 @@ import Juego from '@/components/Juego/Juego'
 import fireApp from '../../config/_firebase.js'
 import Auth from '@/config/auth'
 import collect from 'collect.js'
+import moment from 'moment'
 const partidas = fireApp.firestore().collection('juego-1')
 export default {
   name: 'Partida',
@@ -86,7 +87,8 @@ export default {
       partida: {},
       // partidas: [],
       user: {},
-      collect
+      collect,
+      moment
     }
   },
   /*
@@ -124,6 +126,7 @@ export default {
     // metodo para generar nueva partida
     crearPartida () {
       this.user = Auth.getUser()
+      let now = moment().toDate()
       let uid = this.user.uid
       // Escribe en la base de datos
       partidas.add({
@@ -132,6 +135,7 @@ export default {
         'usuario_1': '',
         'usuario_2': '',
         'ganador': ' ',
+        created_at: now,
         completed: false
       })
     },
