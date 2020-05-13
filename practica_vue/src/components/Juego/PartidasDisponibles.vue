@@ -111,6 +111,23 @@ export default {
       user: {}
     }
   },
+  beforeRouteEnter (to, from, next) {
+    // next(async vm => {
+    next(vm => {
+      vm.obtenerPartida(to.params.no_partida)
+      /* vm.obtenerPartida(to.params.no_partida)
+      // vm.user = await Auth.getUser()
+      vm.$bind('user', Auth.getUser())
+      vm.user = vm.obtenerUser()
+      vm.$bind('partida', partida.doc(to.params.no_partida)) */
+      // vm.user = Auth.getUser()
+      vm.$bind('partida', partidas.doc(to.params.no_partida))
+    })
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.$bind('partida', partidas.doc(to.params.no_partida))
+    next()
+  },
   firestore: {
     partidas: fireApp.firestore().collection('juego-1')
   },
@@ -119,8 +136,15 @@ export default {
       deep: true,
       immediate: true,
       handler: function (val) {
-        this.user = Auth.getUser()
         this.partidasSort = collect(val).sortByDesc('created_at').all()
+      }
+    },
+    '$route.params': {
+      deep: true,
+      immediate: true,
+      handler (value) {
+        this.user = Auth.getUser()
+        this.$bind('partida', partidas.doc(value.no_partida))
       }
     }
   },
@@ -130,6 +154,17 @@ export default {
   methods: {
     async obtenerUser () {
       this.user = await Auth.getUser()
+    },
+    obtenerPartida (partida) {
+      /* fireApp.firestore().collection('juego-1').doc(this.partida).get().then((result) => {
+        console.log(result.data())
+      })
+      fireApp.firestore().collection('juego-1').where('participantes', '==', this.user.uid).get().then((result) => {
+        console.log('Hay partidas')
+      }) */
+      partidas.doc(partida).get().then((result) => {
+        console.log(result.data())
+      })
     },
     crearPartida () {
       let now = moment().toDate()
