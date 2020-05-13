@@ -60,7 +60,7 @@
 
     </div>
     <div class="col">
-      <button class="btn btn-gray sign-up" @click="signup"><small>Don't have an account?</small></button>
+      <button class="btn btn-gray sign-up" @click="signup"><small class="text-light">Don't have an account?</small></button>
 
     </div>
 

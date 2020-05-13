@@ -1,82 +1,88 @@
 body.profile {
-    background-image: url(../../../assets/KACHIPU-21.png);
-  }
-  h4 {
-    font-weight: bolder;
-    color: #344093;
-  }
-  button.back {
-    color: yellow;
-    font-weight: bolder;
-    float: left;
-  }
-  button.back:hover {
-    color: white;
-  }
-  .small {
-    font-weight: bold;
-    font-size: 9pt;
-    float: left;
-    text-align: left;
-  }
-  h3 {
-    font-weight: bolder;
-  }
-  .content {
-    height: 100%;
-    border-radius: 0px !important;
-    background-size: cover;
-    border-left: 1px solid gainsboro !important;
-    text-align: center;
-  }
-  input {
-    border-radius: 0% !important;
-  }
-  .title {
-    color: black;
-  }
-  .section {
-    background-color: white;
-  }
-  strong.strong {
-    color: #344093;
-  }
-  .btn-update {
-    background-color: transparent;
-    border: 2px solid #344093;
-    border-radius: 0%;
-  }
-  .btn-update:hover {
-    border: 2px solid black;
-  }
-  strong:hover {
-    color: black;
-  }
-  .title {
-    font-family: montserrat !important;
-  }
-  .subtitle {
-    color: black !important;
-    font-size: 10pt !important;
-    font-family: montserrat !important;
-    text-align: center !important;
-  }
-  .log-out {
-    color: #344093 !important;
-    font-family: montserrat !important;
-    font-weight: bolder !important;
-  }
-  .log-out:hover {
-    color: black;
-  }
-  .btn-create-new {
-    border: 1px solid yellow;
-    border-radius: 0%;
-    color: yellow;
-  }
-  .btn-create-new:hover {
-    border: 1px solid white;
-    background-color: rgba(1, 1, 1, 0.2);
-    color: white;
-  }
-  
+  background-image: url(../../../assets/KACHIPU-21.png);
+}
+h4 {
+  font-weight: bolder;
+  color: #344093;
+}
+button.back {
+  color: yellow;
+  font-weight: bolder;
+  float: left;
+}
+button.back:hover {
+  color: white;
+}
+.imgperfil {
+  height: 85px;
+  margin-bottom: 10px;
+}
+.profiletitle {
+  font-size: 9pt;
+  font-weight: bold;
+}
+.small {
+  font-weight: bold;
+  font-size: 9pt;
+  float: left;
+  text-align: left;
+}
+h3 {
+  font-weight: bolder;
+}
+.content {
+  height: 100%;
+  background-size: cover;
+  border-left: 1px solid gainsboro !important;
+  text-align: center;
+}
+input {
+  border-radius: 0% !important;
+}
+.title {
+  color: black;
+}
+.section {
+  background-color: white;
+}
+strong.strong {
+  color: #344093;
+}
+.btn-update {
+  background-color: transparent;
+  border: 2px solid #344093;
+  border-radius: 0%;
+}
+.btn-update:hover {
+  border: 2px solid black;
+}
+strong:hover {
+  color: black;
+}
+.title {
+  font-family: montserrat !important;
+}
+.subtitle {
+  color: black !important;
+  font-size: 10pt !important;
+  font-family: montserrat !important;
+  text-align: center !important;
+}
+.log-out {
+  color: #344093 !important;
+  font-family: montserrat !important;
+  font-weight: bolder !important;
+}
+.log-out:hover {
+  color: black;
+}
+.btn-create-new {
+  border: 1px solid yellow;
+  border-radius: 0%;
+  color: yellow;
+}
+.btn-create-new:hover {
+  border: 1px solid white;
+  background-color: rgba(1, 1, 1, 0.2);
+  color: white;
+}

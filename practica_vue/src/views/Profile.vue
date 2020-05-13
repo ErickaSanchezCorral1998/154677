@@ -5,18 +5,18 @@
       <div class="row">
 
         <div style="width:100%;">
-          <router-link :to="{name:'partidas'}"> <button class="btn back">BACK</button></router-link><br>
+          <router-link :to="{name:'partidas'}"> <button class="btn back">BACK TO MAIN</button></router-link><br>
         </div>
-        <div class="col-lg-5 mt">
+        <div class="col-lg-5">
           <ProfileForm class="login-form"></ProfileForm>
         </div>
         <div
-          class="col-lg-7 pt mt"
+          class="col-lg-7 pt"
           style="background-color:#344093"
         >
           <h3>RECORD</h3>
           <Ronda></Ronda>
-          <button class="btn btn-create-new">CREATE NEW</button>
+          <button class="btn btn-create-new" style="border:2px solid yellow; color:yellow;">CREATE NEW</button>
         </div>
       </div>
     </div>

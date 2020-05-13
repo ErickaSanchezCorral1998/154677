@@ -1,15 +1,18 @@
 <template>
-<section>
+<section class="profilemain">
   <div class="col">
-    <img class="img-fluid mb-2" :src="user.photo"
-      style="height: 100px;">
+    <center>
+      <div class="imagenperfil">
+        <img class="mb-2" :src="user.photo">
+      </div>
+    </center>
     <a class="subtitle text-center">
-      <h6 class="title text-light">Hello {{user.nombre?user.nombre:'Sin Nombre'}}</h6>
-      {{user&&user.emailUser?user.emailUser:'Sin Correo'}}
+      <h6 class="titleprofile text-dark">{{user&&user.name?user.name:'Sin Nombre'}}</h6>
+      <p class="correo">{{user&&user.email?user.email:'Sin Correo'}}</p>
     </a>
   </div>
   <router-link :to="{name:'profile'}">
-<button class="btn btn-edit">Edit</button>
+<button class="btn btn-edit editar">Edit</button>
   </router-link>
 
   </section>

@@ -1,10 +1,11 @@
 <template>
   <section class="section">
-      <a class="subtitle text-center">
-    <h6 class="title">Hello {{user&&user.nombre?user.nombre:'Sin Nombre'}}</h6>
-    <img class="img-fluid w-50 h-50 m-3" :src="user.photo">
-  </a>
+
   <h4>EDIT PROFILE</h4>
+        <a class="subtitle text-center">
+    <img class="imgperfil" :src="user.photo">
+    <h6 class="title profiletitle"> {{user&&user.nombre?user.nombre:'Sin Nombre'}}</h6>
+  </a>
     <alerts-component v-if="showError" :message="errorMessage" :code="errorCode"></alerts-component>
     <div class="col">
 

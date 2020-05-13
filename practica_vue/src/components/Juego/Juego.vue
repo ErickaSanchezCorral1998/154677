@@ -6,15 +6,14 @@
       <h4 class="mx-auto usuario">{{displayName}}</h4>
     </div>
     <div class="row">
-      <div class="col-md-3 mx-auto">
+      <div class="col-3 mx-auto">
         <h1 >{{opciones[userOpcion]}}</h1>
       </div>
     </div>
-    <div class="row">
-      <label id="separacion" class="mx-auto"></label>
-      <div class="col-4 mx-auto opciones">
-        <div class="row">
-          <div class="col col-sm-4 opcion p-3" v-for="(option,key ) in opciones" :key="key" @click="select(key)">
+    <div class="row" >
+      <div class="col-4 mx-auto opciones" >
+        <div class="row" >
+          <div class="col col-sm-4 opcion p-3"  v-for="(option,key ) in opciones" :key="key" @click="select(key)">
         {{option}}
           </div>
         </div>

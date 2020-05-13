@@ -1,44 +1,32 @@
 <template>
 <section v-if="collect(partida).isNotEmpty()" >
-  <img
-      class="logoflotante"
-      src="../../assets/KACHIPU-07.png"
-    >
+
     <div class="logogame">
       <ProfileFormMain></ProfileFormMain>
-      <img
-        class="logogameimg"
-        src="../../assets/KACHIPU-12.png"
-      >
+
     </div>
     <div class="p-5">
-    <h1 class="tituloJuego">{{$route.params.no_partida.replace('-',' ')}}</h1>
+    <!--<-h1 class="tituloJuego">{{$route.params.no_partida.replace('-',' ')}}</h1>-->
       <div class="row row-fluid">
-        <div class="col ml-3">
-      <button class="btn btn-new-partidas"  @click="crearPartida">Nueva Partida</button>
-      </div>
 
-      <div class="col col-md-2">
+      <div class="col col-md-12">
         <!--&& user.uid!=partida.participantes[0]" -->
         <button  v-if="!partida.name[1]"  class="btn" @click="retar">💰</button>
       </div>
-      <div class="col mr-3">
-          <div class="contadores">
-            <div v-if="partida.completed">
-              <h5> G: {{partida.ganador_nombre}}</h5>
-            </div>
-          </div>
-        </div>
+
       </div>
 <div class="row mr-3">
-  <div class="col col-sm-12 col-lg-8 p-2 bg-light">
+   <div
+          class="col col-sm-12 col-lg-6"
+          style="background-color: white;"
+        >
     <juego  @opcion="getOpcion"
             :userOpcion="partida.usuario_2!=''||(partida.participantes[0] === user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
             :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.names[0]:'':user.displayName"></juego>
   </div>
 <div
-          class="col col-sm-12 col-lg-4 p-2"
-          style="background-color:black;"
+          class="col col-sm-12 col-lg-6"
+          style="background-color: gainsboro;;"
         >
       <juego @opcion="getOpcion"
         :userOpcion="partida.usuario_1!=''||(partida.participantes[1] === user.uid) ? partida.usuario_2:(partida.usuario_1 && partida.usuario_2)?partida.usuario_2:''"
@@ -46,7 +34,7 @@
 </div>
 </div>
 
-<b> {{partida}}</b>
+<!--<b> {{partida}}</b>-->
     </div>
   </section>
 </template>
@@ -190,6 +178,7 @@ export default {
         ganador: '',
         ganador_nombre: ''
       }
+
       switch (this.partida.usuario_1) {
         case 'tijeras':
           switch (this.partida.usuario_2) {

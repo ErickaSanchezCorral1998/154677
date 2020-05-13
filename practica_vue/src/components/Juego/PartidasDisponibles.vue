@@ -2,23 +2,23 @@
   <div class="col columnaDer">
     <div class="tab-main mx-auto columnaDer">
       <input id="tab1" type="radio" name="tabs" checked />
-      <label for="tab1">Partidas propias</label>
+      <label for="tab1"> Propias</label>
       <input id="tab2" type="radio" name="tabs" />
-      <label for="tab2">Partidas disponibles</label>
+      <label for="tab2">Disponibles</label>
       <section id="content1">
         <ul class="list-group">
             <li
               v-if="collect(partidas).isEmpty()"
               class="list-group-item"
             >
-              Sin Partidas Disponibles 🥺
+              Sin Partidas Disponibles
               <button
                 :disabled="!user"
                 :class="user?'btn-outline-success':'btn-outline-light'"
                 class="btn mb-2"
                 @click="crearPartida"
               >
-                Crear Partida 🥳
+                Crear Partida
               </button>
             </li>
             <li
@@ -86,7 +86,7 @@
           class="btn mb-2"
           @click="crearPartida"
         >
-          Nueva Partida 👾
+          Nueva Partida
         </button>
       </section>
     </div>

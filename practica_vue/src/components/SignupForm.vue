@@ -1,6 +1,6 @@
 <template>
   <section>
-        <h3 class="title">JOIN US</h3>
+        <h3 class="title text-light" >JOIN US</h3>
    <h1><strong> AND PLAY!</strong></h1>
     <div class="col mb-3">
         <a class="subtitle text-center">
