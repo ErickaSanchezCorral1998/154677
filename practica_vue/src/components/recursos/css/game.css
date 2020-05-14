@@ -58,7 +58,7 @@ body.game {
   height: 80px;
   width: 200px;
   background-color: white;
-  box-shadow: 0px 0px 10px 0px #e6e6e6d5;
+  box-shadow: 0px 0px 15px 0px #e6e6e6e5;
   position: relative;
   margin: 10px;
 }
@@ -102,7 +102,6 @@ body.game {
   top: 0;
   left: 0;
   bottom: 0;
-  background-color:rgba(31, 32, 43, 0.719);
   right: 0;
   z-index: 1000;
 }

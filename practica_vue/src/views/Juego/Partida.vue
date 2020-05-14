@@ -12,7 +12,7 @@
                       <div class="trophy">🏆</div>
                       </div>
                       <div class="text">
-                      <h3>Ganador: {{partida.ganador_nombre}}</h3>
+                      <h3>{{partida.ganador_nombre}}</h3>
                       <button class="btnGanar" @click="modalAction()">OK</button>
       </div>
     </div>
@@ -41,11 +41,11 @@
         >
           <juego  @opcion="getOpcion"
             :userOpcion="partida.usuario_2!=''||(partida.participantes[0] === user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
-            :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.names[0]:'':user.displayName"></juego>
+            :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.name[0]:'':user.displayName"></juego>
           </div>
           <div
           class="col col-sm-12 col-lg-6"
-          style="background-color: gainsboro;;"
+          style="background-color: gainsboro;"
         >
           <juego @opcion="getOpcion"
             :userOpcion="partida.usuario_1!=''||(partida.participantes[1] === user.uid) ? partida.usuario_2:(partida.usuario_1 && partida.usuario_2)?partida.usuario_2:''"
