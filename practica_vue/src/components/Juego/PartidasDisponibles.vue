@@ -7,23 +7,10 @@
       <label for="tab2">Disponibles</label>
       <section id="content1">
         <ul class="list-group">
+
             <li
-              v-if="collect(partidas).isEmpty()"
-              class="list-group-item"
-            >
-              Sin Partidas Disponibles
-              <button
-                :disabled="!user"
-                :class="user?'btn-outline-success':'btn-outline-light'"
-                class="btn mb-2"
-                @click="crearPartida"
-              >
-                Crear Partida
-              </button>
-            </li>
-            <li
-              v-for="partida in partidasSort"
-              :key="partida.id"
+              v-for="partidas in partidasSort"
+              :key="partidas.id"
               class="list-group-item "
             >
               <div class="row">
@@ -32,65 +19,60 @@
 
                 </div>
                 <div class="col">
-                  <h4 v-if="partida.participantes.includes(user.uid)">⭐</h4>
+                  <h4 v-if="partidas.participantes.includes(user.uid)">⭐</h4>
                 </div>
                 <div
-                  v-if="partida.usuario_1==='' || partida.usuario_2===''"
+                  v-if="partidas.usuario_1==='' || partidas.usuario_2===''"
                   class="col"
                 >
                   <h4
                     class="animated infinite pulse"
-                    v-if="partida.usuario_1==='' && partida.participantes.indexOf(user.uid) === 0"
+                    v-if="partidas.usuario_1==='' && partidas.participantes.indexOf(user.uid) === 0"
                   >⏰</h4>
                   <h4
                     class="animated infinite pulse"
-                    v-if="partida.usuario_2==='' && partida.participantes.indexOf(user.uid) === 1"
+                    v-if="partidas.usuario_2==='' && partidas.participantes.indexOf(user.uid) === 1"
                   >⏰</h4>
                 </div>
                 <div
-                  v-if="partida.usuario_1===''"
+                  v-if="partidas.usuario_1===''"
                   class="col"
                 >
                   <h4 class="animated infinite pulse">1️⃣</h4>
                 </div>
                 <div
-                  v-if="partida.usuario_2===''"
+                  v-if="partidas.usuario_2===''"
                   class="col"
                 >
                   <h4 class="animated infinite pulse">2️⃣</h4>
                 </div>
               </div>
-              <h4>{{partida.ganador_nombre}}</h4>
+              <h4>{{partidas.ganador_nombre}}</h4>
               <br>
               <strong>Player 1: </strong> {{partida.name[0]}}
               <br>
-              <strong>Player 2: </strong> {{partida.name[1]?partida.name[1]:'Sin Retador'}}
+              <strong>Player 2: </strong> {{partidas.name[1]?partidas.name[1]:'Sin Retador'}}
               <br>
-              <strong>Creada:</strong> {{moment(partida.created_at.toDate()).format('LLL')}}
+              <strong>Creada:</strong> {{moment(partidas.created_at.toDate()).format('LLL')}}
               <br>
               <div class="btn-group">
                 <button
                   class="btn mb-2 btn-outline-info btn-sm animated infinite"
-                  :class="partida.name.length===1?'pulse':''"
-                  @click="$router.push({name:'partidas',params:{no_partida:partida.id}}).catch(err => {})"
+                  :class="partidas.name.length===1?'pulse':''"
+                  @click="$router.push({name:'partidas',params:{no_partida:partidas.id}}).catch(err => {})"
                 >
-                  {{partida.participantes.length===1&&!partida.participantes.includes(user.uid)  ?'Retar':'Ver'}}
+                  {{partidas.participantes.length===1&&!partidas.participantes.includes(user.uid)  ?'Retar':'Ver'}}
                 </button>
               </div>
             </li>
           </ul>
       </section>
       <section id="content2">
-        <button
-          :class="user?'btn-outline-success':'btn-outline-light'"
-          class="btn mb-2"
-          @click="crearPartida"
-        >
-          Nueva Partida
-        </button>
+          {{partidas}}
       </section>
     </div>
   </div>
+
 </template>
 
 <script lang="js">
@@ -102,19 +84,10 @@ const partidas = fireApp.firestore().collection('juego-1')
 
 export default {
   name: 'PartidasDisponibles',
-  data () {
-    return {
-      collect,
-      moment,
-      partidasSort: [],
-      partidas: [],
-      user: {}
-    }
-  },
+
   beforeRouteEnter (to, from, next) {
     // next(async vm => {
     next(vm => {
-      vm.obtenerPartida(to.params.no_partida)
       /* vm.obtenerPartida(to.params.no_partida)
       // vm.user = await Auth.getUser()
       vm.$bind('user', Auth.getUser())
@@ -127,6 +100,16 @@ export default {
   beforeRouteUpdate (to, from, next) {
     this.$bind('partida', partidas.doc(to.params.no_partida))
     next()
+  },
+  data () {
+    return {
+      collect,
+      moment,
+      partida: {},
+      partidasSort: [],
+      partidas: [],
+      user: {}
+    }
   },
   firestore: {
     partidas: fireApp.firestore().collection('juego-1')
@@ -176,6 +159,8 @@ export default {
         'usuario_1': '',
         'usuario_2': '',
         'ganador': ' ',
+        contrincante: '',
+        retador: uid,
         created_at: now,
         completed: false
       })

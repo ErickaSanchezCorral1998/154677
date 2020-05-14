@@ -1,28 +1,7 @@
 <template >
 <section>
-<div class="appMainContenedor">
-          <div id="app">
-              <button @click="modalAction()">Ver Modal</button>
-              <transition name="fade">
-              <div v-if="modal" >
-                <div  id="appMain">
-                  <center>
-                  <div class="pop">
-                    <div class="pop-up">
-                      <div class="trophy">🏆</div>
-                      </div>
-                      <div class="text">
-                      <h3>Ganador:</h3>
-                      <button class="btnGanar" @click="modalAction()">OK</button>
-      </div>
-    </div>
-</center>
-                </div>
-              </div>
-              </transition>
-          </div>
-          </div>
-    <div class="container container2">
+
+    <div class="container container3">
       <div>
       <div class="row">
       <div class="col-lg-9 left" style="background-color:whitesmoke;">
@@ -54,7 +33,7 @@
         </div>
       </div>
 </div>
-
+{{partida}}
       </div>
     </div>
     </section>
@@ -67,13 +46,17 @@ import Firebase from '@/config/_firebase.js'
 import moment from 'moment'
 // import Partida from '@/views/Juego/Partida'
 import PartidasDisponibles from '@/components/Juego/PartidasDisponibles'
-
+const partidas = Firebase.firestore().collection('juego-1')
 export default {
   name: 'partidas',
   data () {
     return {
       moment,
-      modal: false
+      partida: {},
+      partidas: [],
+      partidasDisponibles: [],
+      partidasPropias: [],
+      user: {}
     }
   },
   components: {
@@ -83,8 +66,38 @@ export default {
   beforeCreate: function () {
     document.body.className = 'main'
   },
+  beforeRouteEnter (to, from, next) {
+    // next(async vm => {
+
+    next(vm => {
+      vm.user = Auth.getUser()
+      vm.obtenerPartida(to.params.no_partida)
+      /* vm.obtenerPartida(to.params.no_partida)
+      // vm.user = await Auth.getUser()
+      vm.$bind('user', Auth.getUser())
+      vm.user = vm.obtenerUser()
+      vm.$bind('partida', partida.doc(to.params.no_partida)) */
+      // vm.user = Auth.getUser()
+      vm.partidas = []
+      vm.$bind('partidas', partidas.where('completed', '==', false))
+    })
+  },
   mounted () {
     this.user = Auth.getUser()
+  },
+  firestore: {
+    partida: (partidas.where('contricante', '==', ''))
+  },
+  watch: {
+    '$route.params': {
+      deep: true,
+      immediate: true,
+      handler (value) {
+        this.user = Auth.getUser()
+        this.coleccionDePartidas = []
+        this.$bind('partidasDisponilbes', partidas.where('completed', '==', false))
+      }
+    }
   },
   methods: {
 
@@ -100,19 +113,14 @@ export default {
       Firebase.firestore().collection('juego-1').add({
         participantes: [uid],
         name: [this.user.displayName == null ? 'Usuario 1' : this.user.displayName],
-        'usuario_1': ' ',
-        'usuario_2': ' ',
+        'usuario_1': '',
+        'usuario_2': '',
         'ganador': ' ',
+        contrincante: '',
+        retador: uid,
         created_at: now,
         completed: false
       })
-    },
-    modalAction () {
-      if (this.modal === false) {
-        this.modal = true
-      } else {
-        this.modal = false
-      }
     }
   }
 }

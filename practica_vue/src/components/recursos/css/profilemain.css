@@ -67,90 +67,7 @@ button.editar:hover {
 .imagenperfil img {
   height: 100%;
 }
-.pop {
-  height: 80px;
-  width: 200px;
-  background-color: white;
-  box-shadow: 0px 0px 10px 0px #e6e6e6d5;
-  position: relative;
-  margin: 10px;
-}
-.pop-up {
-  position: absolute;
-  top: -20px;
-  width: 100%;
-}
-.pop-up .trophy {
-  font-size: 30pt;
-}
-.pop-up img {
-  height: 100px;
-}
-.pop .text {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  padding-top: 35px;
-}
-.pop .text h3 {
-  font-size: 25px;
-  color: black;
-  width: 100%;
-  height: 100%;
-  font-weight: bold;
-  margin-bottom: 0px;
-}
-.container2{
-  z-index: -1;
-  position: relative;
-}
-.appMainContenedor{
-  position: fixed;
 
-  width: 100%;
-  height: 100vh;
-}
-#appMain{
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  bottom: 0;
-  position: relative;
-  background-color:rgba(31, 32, 43, 0.719);
-  z-index: 2;
-}
-
-.btnGanar {
-  height: 40px;
-  width: 200px;
-  background-color: #344093;
-  border: 0px solid;
-  font-weight: bold;
-  color: white;
-  transition: 0.2s;
-}
- 
-.btnGanar:hover {
-  background-color: #0d1442;
-}
-.pop{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-  .fade-enter-active, .fade-leave-active{
-    transition: opacity .5s;
-  }
-
-  .fade-enter, .fade-leave-to{
-    opacity: 0;
-  }
   .contadores {
     background-color: black;
     float: right;
@@ -175,4 +92,7 @@ button.editar:hover {
   .opcion:hover {
     background-color: yellow !important;
     border-radius: 50%;
+  }
+  .container3{
+    position: relative;
   }

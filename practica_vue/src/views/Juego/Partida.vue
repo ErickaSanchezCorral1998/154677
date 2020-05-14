@@ -1,40 +1,59 @@
 <template>
 <section v-if="collect(partida).isNotEmpty()" >
-
+  <div class="appMainContenedor">
+          <div id="app">
+              <!--<button @click="modalAction()">Ver Modal</button>-->
+              <transition name="fade">
+              <div v-if="modal" >
+                <div  id="appMain">
+                  <center>
+                  <div class="pop">
+                    <div class="pop-up">
+                      <div class="trophy">🏆</div>
+                      </div>
+                      <div class="text">
+                      <h3>Ganador: {{partida.ganador_nombre}}</h3>
+                      <button class="btnGanar" @click="modalAction()">OK</button>
+      </div>
+    </div>
+</center>
+                </div>
+              </div>
+              </transition>
+          </div>
+          </div>
+<div class="container2">
     <div class="logogame">
       <ProfileFormMain></ProfileFormMain>
-
     </div>
     <div class="p-5">
     <!--<-h1 class="tituloJuego">{{$route.params.no_partida.replace('-',' ')}}</h1>-->
       <div class="row row-fluid">
-
-      <div class="col col-md-12">
+        <div class="col col-md-12">
         <!--&& user.uid!=partida.participantes[0]" -->
-        <button  v-if="!partida.name[1]"  class="btn" @click="retar">💰</button>
+          <button  v-if="!partida.name[1]"  class="btn" @click="retar">💰</button>
+        </div>
       </div>
-
-      </div>
-<div class="row mr-3">
-   <div
+      <div class="row mr-3">
+        <div
           class="col col-sm-12 col-lg-6"
           style="background-color: white;"
         >
-    <juego  @opcion="getOpcion"
+          <juego  @opcion="getOpcion"
             :userOpcion="partida.usuario_2!=''||(partida.participantes[0] === user.uid) ? partida.usuario_1:(partida.usuario_1 && partida.usuario_2)?partida.usuario_1:''"
             :displayName="!user.displayName?partida.name[0]!== user.displayName?partida.names[0]:'':user.displayName"></juego>
-  </div>
-<div
+          </div>
+          <div
           class="col col-sm-12 col-lg-6"
           style="background-color: gainsboro;;"
         >
-      <juego @opcion="getOpcion"
-        :userOpcion="partida.usuario_1!=''||(partida.participantes[1] === user.uid) ? partida.usuario_2:(partida.usuario_1 && partida.usuario_2)?partida.usuario_2:''"
-        :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" ></juego>
+          <juego @opcion="getOpcion"
+            :userOpcion="partida.usuario_1!=''||(partida.participantes[1] === user.uid) ? partida.usuario_2:(partida.usuario_1 && partida.usuario_2)?partida.usuario_2:''"
+            :displayName="!partida.name[1]?'Esperando Retador':partida.name[1]" ></juego>
+      </div>
 </div>
-</div>
-
 <!--<b> {{partida}}</b>-->
+    </div>
     </div>
   </section>
 </template>
@@ -63,7 +82,7 @@ export default {
       vm.user = vm.obtenerUser()
       vm.$bind('partida', partida.doc(to.params.no_partida)) */
       // vm.user = Auth.getUser()
-      vm.$bind('partida', partidas.doc(to.params.no_partida))
+      vm.$bind('partidas', partidas.doc(to.params.no_partida))
     })
   },
   beforeRouteUpdate (to, from, next) {
@@ -76,7 +95,8 @@ export default {
       // partidas: [],
       user: {},
       collect,
-      moment
+      moment,
+      modal: false
     }
   },
   /*
@@ -123,6 +143,8 @@ export default {
         'usuario_1': '',
         'usuario_2': '',
         'ganador': ' ',
+        contrincante: '',
+        retador: uid,
         created_at: now,
         completed: false
       })
@@ -167,6 +189,7 @@ export default {
       partidas.doc(this.$route.params.no_partida).update(data).then((result) => {
         if (this.partida.usuario_1 !== '' && this.partida.usuario_2 !== '') {
           this.ganar()
+          this.modalAction()
         }
       }).catch((err) => {
         console.log(err)
@@ -244,7 +267,15 @@ export default {
           console.log('sin opcion')
           break
       }
+
       partidas.doc(this.$route.params.no_partida).update(partida)
+    },
+    modalAction () {
+      if (this.modal === false) {
+        this.modal = true
+      } else {
+        this.modal = false
+      }
     }
   }
 }
