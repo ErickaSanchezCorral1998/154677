@@ -15,7 +15,6 @@
             >
               <div class="row">
                 <div class="col">
-                  <h3 class="animated infinite pulse">🏆</h3>
 
                 </div>
                 <div class="col">
@@ -25,26 +24,22 @@
                   v-if="partidas.usuario_1==='' || partidas.usuario_2===''"
                   class="col"
                 >
-                  <h4
-                    class="animated infinite pulse"
-                    v-if="partidas.usuario_1==='' && partidas.participantes.indexOf(user.uid) === 0"
-                  >⏰</h4>
-                  <h4
-                    class="animated infinite pulse"
-                    v-if="partidas.usuario_2==='' && partidas.participantes.indexOf(user.uid) === 1"
-                  >⏰</h4>
+                  <h4  v-if="partidas.usuario_1==='' && partidas.participantes.indexOf(user.uid) === 0"
+                  >Usuario</h4>
+                  <h4 v-if="partidas.usuario_2==='' && partidas.participantes.indexOf(user.uid) === 1"
+                  >Usuario</h4>
                 </div>
                 <div
                   v-if="partidas.usuario_1===''"
                   class="col"
                 >
-                  <h4 class="animated infinite pulse">1️⃣</h4>
+                  <h4 >Usuario 1</h4>
                 </div>
                 <div
                   v-if="partidas.usuario_2===''"
                   class="col"
                 >
-                  <h4 class="animated infinite pulse">2️⃣</h4>
+                  <h4 >Usuario 2</h4>
                 </div>
               </div>
               <h4>{{partidas.ganador_nombre}}</h4>
@@ -52,12 +47,9 @@
               <strong>Player 1: </strong> {{partida.name[0]}}
               <br>
               <strong>Player 2: </strong> {{partidas.name[1]?partidas.name[1]:'Sin Retador'}}
-              <br>
-              <strong>Creada:</strong> {{moment(partidas.created_at.toDate()).format('LLL')}}
-              <br>
               <div class="btn-group">
                 <button
-                  class="btn mb-2 btn-outline-info btn-sm animated infinite"
+                  class="btn mb-2 btn-outline-warning btn-sm "
                   :class="partidas.name.length===1?'pulse':''"
                   @click="$router.push({name:'partidas',params:{no_partida:partidas.id}}).catch(err => {})"
                 >
@@ -68,7 +60,58 @@
           </ul>
       </section>
       <section id="content2">
-          {{partidas}}
+           <ul class="list-group">
+
+            <li
+              v-for="partidas in partidasSort"
+              :key="partidas.id"
+              class="list-group-item "
+            >
+              <div class="row">
+                <div class="col">
+
+                </div>
+                <div class="col">
+                  <h4 v-if="partidas.participantes.includes(user.uid)">⭐</h4>
+                </div>
+                <div
+                  v-if="partidas.usuario_1==='' || partidas.usuario_2===''"
+                  class="col"
+                >
+                  <h4  v-if="partidas.usuario_1==='' && partidas.participantes.indexOf(user.uid) === 0"
+                  >Usuario</h4>
+                  <h4 v-if="partidas.usuario_2==='' && partidas.participantes.indexOf(user.uid) === 1"
+                  >Usuario</h4>
+                </div>
+                <div
+                  v-if="partidas.usuario_1===''"
+                  class="col"
+                >
+                  <h4 >Usuario 1</h4>
+                </div>
+                <div
+                  v-if="partidas.usuario_2===''"
+                  class="col"
+                >
+                  <h4 >Usuario 2</h4>
+                </div>
+              </div>
+              <h4>{{partidas.ganador_nombre}}</h4>
+              <br>
+              <strong>Player 1: </strong> {{partida.name[0]}}
+              <br>
+              <strong>Player 2: </strong> {{partidas.name[1]?partidas.name[1]:'Sin Retador'}}
+              <div class="btn-group">
+                <button
+                  class="btn mb-2 btn-outline-warning btn-sm "
+                  :class="partidas.name.length===1?'pulse':''"
+                  @click="$router.push({name:'partidas',params:{no_partida:partidas.id}}).catch(err => {})"
+                >
+                  {{partidas.participantes.length===1&&!partidas.participantes.includes(user.uid)  ?'Retar':'Ver'}}
+                </button>
+              </div>
+            </li>
+          </ul>
       </section>
     </div>
   </div>
@@ -108,11 +151,12 @@ export default {
       partida: {},
       partidasSort: [],
       partidas: [],
+      partidasPropias: [],
       user: {}
     }
   },
   firestore: {
-    partidas: fireApp.firestore().collection('juego-1')
+    partidas: fireApp.firestore().collection('juego-1').where('contrincante', '==', '').where('completed', '==', false)
   },
   watch: {
     partidas: {
