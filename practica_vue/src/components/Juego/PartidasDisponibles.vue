@@ -9,7 +9,7 @@
         <ul class="list-group">
 
             <li
-              v-for="partidas in partidasSort"
+              v-for="partidas in partidasPropias"
               :key="partidas.id"
               class="list-group-item "
             >
@@ -42,11 +42,11 @@
                   <h4 >Usuario 2</h4>
                 </div>
               </div>
-              <h4>{{partidas.ganador_nombre}}</h4>
+              <h4 class="text-dark">{{partidas.ganador_nombre}}</h4>
               <br>
-              <strong>Player 1: </strong> {{partida.name[0]}}
+              <strong class="text-dark">Player 1: </strong> {{partida.name[0]}}
               <br>
-              <strong>Player 2: </strong> {{partidas.name[1]?partidas.name[1]:'Sin Retador'}}
+              <strong class="text-dark">Player 2: </strong> {{partidas.name[1]?partidas.name[1]:'Sin Retador'}}
               <div class="btn-group">
                 <button
                   class="btn mb-2 btn-outline-warning btn-sm "
@@ -63,7 +63,7 @@
            <ul class="list-group">
 
             <li
-              v-for="partidas in partidasSort"
+              v-for="partidas in partidasDisponibles"
               :key="partidas.id"
               class="list-group-item "
             >
@@ -96,11 +96,11 @@
                   <h4 >Usuario 2</h4>
                 </div>
               </div>
-              <h4>{{partidas.ganador_nombre}}</h4>
+              <h4 class="text-dark">{{partidas.ganador_nombre}}</h4>
               <br>
-              <strong>Player 1: </strong> {{partida.name[0]}}
+              <strong class="text-dark">Player 1: </strong> {{partida.name[0]}}
               <br>
-              <strong>Player 2: </strong> {{partidas.name[1]?partidas.name[1]:'Sin Retador'}}
+              <strong class="text-dark">Player 2: </strong> {{partidas.name[1]?partidas.name[1]:'Sin Retador'}}
               <div class="btn-group">
                 <button
                   class="btn mb-2 btn-outline-warning btn-sm "
@@ -138,6 +138,7 @@ export default {
       vm.$bind('partida', partida.doc(to.params.no_partida)) */
       // vm.user = Auth.getUser()
       vm.$bind('partida', partidas.doc(to.params.no_partida))
+      vm.$bind('partidasDisponibles', partidas.where('completed', '==', false))
     })
   },
   beforeRouteUpdate (to, from, next) {
@@ -152,11 +153,14 @@ export default {
       partidasSort: [],
       partidas: [],
       partidasPropias: [],
+      partidasDisponibles: [],
       user: {}
     }
   },
   firestore: {
-    partidas: fireApp.firestore().collection('juego-1').where('contrincante', '==', '').where('completed', '==', false)
+    partidas: fireApp.firestore().collection('juego-1'),
+    partidasDisponibles: partidas.where('contrincante', '==', ''),
+    partidasPropias: partidas
   },
   watch: {
     partidas: {
