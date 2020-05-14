@@ -131,13 +131,11 @@ export default {
   beforeRouteEnter (to, from, next) {
     // next(async vm => {
     next(vm => {
-      /* vm.obtenerPartida(to.params.no_partida)
-      // vm.user = await Auth.getUser()
-      vm.$bind('user', Auth.getUser())
-      vm.user = vm.obtenerUser()
-      vm.$bind('partida', partida.doc(to.params.no_partida)) */
-      // vm.user = Auth.getUser()
+      vm.user = Auth.getUser()
+      vm.partidasPropias = []
+      vm.partidasDisponibles = []
       vm.$bind('partida', partidas.doc(to.params.no_partida))
+      vm.$bind('partidasPropias', partidas.where('retador', '==', vm.user.uid))
       vm.$bind('partidasDisponibles', partidas.where('completed', '==', false))
     })
   },
@@ -158,16 +156,17 @@ export default {
     }
   },
   firestore: {
-    partidas: fireApp.firestore().collection('juego-1'),
-    partidasDisponibles: partidas.where('contrincante', '==', ''),
-    partidasPropias: partidas
+    partidas: fireApp.firestore().collection('juego-1')
   },
   watch: {
     partidas: {
       deep: true,
       immediate: true,
       handler: function (val) {
+        this.partidasDisponibles = []
         this.partidasSort = collect(val).sortByDesc('created_at').all()
+        this.$bind('partidasPropias', partidas.where('retador', '==', this.user.uid))
+        this.$bind('partidasDisponibles', partidas.where('completed', '==', false))
       }
     },
     '$route.params': {
@@ -187,12 +186,6 @@ export default {
       this.user = await Auth.getUser()
     },
     obtenerPartida (partida) {
-      /* fireApp.firestore().collection('juego-1').doc(this.partida).get().then((result) => {
-        console.log(result.data())
-      })
-      fireApp.firestore().collection('juego-1').where('participantes', '==', this.user.uid).get().then((result) => {
-        console.log('Hay partidas')
-      }) */
       partidas.doc(partida).get().then((result) => {
         console.log(result.data())
       })
@@ -200,7 +193,6 @@ export default {
     crearPartida () {
       let now = moment().toDate()
       let uid = this.user.uid
-      // Escribe en la base de datos
       partidas.add({
         participantes: [uid],
         name: [this.user.displayName == null ? 'Usuario 1' : this.user.displayName],
