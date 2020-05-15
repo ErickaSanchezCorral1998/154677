@@ -33,7 +33,7 @@
         </div>
       </div>
 </div>
-{{partida}}
+<!--{{partida}}-->
       </div>
     </div>
     </section>
@@ -70,7 +70,6 @@ export default {
     // next(async vm => {
 
     next(vm => {
-      vm.user = Auth.getUser()
       vm.obtenerPartida(to.params.no_partida)
       /* vm.obtenerPartida(to.params.no_partida)
       // vm.user = await Auth.getUser()
@@ -78,9 +77,12 @@ export default {
       vm.user = vm.obtenerUser()
       vm.$bind('partida', partida.doc(to.params.no_partida)) */
       // vm.user = Auth.getUser()
-      vm.partidas = []
-      vm.$bind('partidas', partidas.where('completed', '==', false))
+      vm.$bind('partidas', partidas.doc(to.params.no_partida))
     })
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.$bind('partida', partidas.doc(to.params.no_partida))
+    next()
   },
   mounted () {
     this.user = Auth.getUser()
@@ -95,7 +97,7 @@ export default {
       handler (value) {
         this.user = Auth.getUser()
         this.coleccionDePartidas = []
-        this.$bind('partidasDisponilbes', partidas.where('completed', '==', false))
+        this.$bind('partida', partidas.doc(value.no_partida))
       }
     }
   },
@@ -103,6 +105,17 @@ export default {
 
     async obtenerUser () {
       this.user = await Auth.getUser()
+    },
+    obtenerPartida (partida) {
+      /* fireApp.firestore().collection('juego-1').doc(this.partida).get().then((result) => {
+        console.log(result.data())
+      })
+      fireApp.firestore().collection('juego-1').where('participantes', '==', this.user.uid).get().then((result) => {
+        console.log('Hay partidas')
+      }) */
+      partidas.doc(partida).get().then((result) => {
+        console.log(result.data())
+      })
     },
     // metodo para generar nueva partida
     crearPartida () {

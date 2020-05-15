@@ -180,10 +180,14 @@ export default {
   },
   mounted () {
     this.user = Auth.getUser()
+    this.partidasPropias = fireApp.firestore().collection('juego-1')
   },
   methods: {
     async obtenerUser () {
       this.user = await Auth.getUser()
+    },
+    obtener () {
+
     },
     obtenerPartida (partida) {
       partidas.doc(partida).get().then((result) => {

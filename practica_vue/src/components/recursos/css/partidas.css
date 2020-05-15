@@ -47,3 +47,5 @@
 .tab-main #tab2:checked ~ #content2 {
   display: block;
 }
+ul{height:200px; width:100%;}
+ul{overflow:hidden; overflow-y:scroll;}

@@ -189,7 +189,6 @@ export default {
       partidas.doc(this.$route.params.no_partida).update(data).then((result) => {
         if (this.partida.usuario_1 !== '' && this.partida.usuario_2 !== '') {
           this.ganar()
-          this.modalAction()
         }
       }).catch((err) => {
         console.log(err)
@@ -269,6 +268,7 @@ export default {
       }
 
       partidas.doc(this.$route.params.no_partida).update(partida)
+      this.modalAction()
     },
     modalAction () {
       if (this.modal === false) {
