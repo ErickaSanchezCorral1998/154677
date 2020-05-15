@@ -30,7 +30,7 @@
     <!--<-h1 class="tituloJuego">{{$route.params.no_partida.replace('-',' ')}}</h1>-->
       <div class="row row-fluid">
         <div class="col col-md-12">
-         <h3 class="text-dark"> {{partida.name[0]}} vs {{partida.name[1]}}</h3>
+         <h3 class="" style="color:#344093; font-weight:bold;"> {{partida.name[0]}} vs {{partida.name[1]}}</h3>
         <!--&& user.uid!=partida.participantes[0]" -->
           <button  v-if="!partida.name[1] && !partida.participantes.includes(user.uid)"  class="btn mb-2 btn-warning text-white" @click="retar">Retar</button>
         </div>

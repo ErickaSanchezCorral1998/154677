@@ -21,7 +21,8 @@
               <button
                 class="btn btn-create"
                 @click="crearPartida"
-              >NEW GAME</button>
+              >NUEVO JUEGO</button><br><br>
+               <button class="btn" @click="logout"><small><strong class="strong"> CERRAR SESION</strong></small></button>
           </div>
           <div class="col-lg-12 col-sm-12" style="background-color:#000; min-height:200px;" >
             <PartidasDisponibles class="mt" style="background-color:transparent"/>
@@ -112,6 +113,9 @@ export default {
       partidas.doc(partida).get().then((result) => {
         console.log(result.data())
       })
+    },
+    logout () {
+      return Auth.logOut()
     },
     // metodo para generar nueva partida
     crearPartida () {

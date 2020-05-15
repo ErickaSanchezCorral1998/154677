@@ -19,18 +19,19 @@
                   v-if="partidas.usuario_1==='' || partidas.usuario_2===''"
                   class="col"
                 >
-                  <h4  v-if="partidas.usuario_1==='' && partidas.participantes.indexOf(user.uid) === 0"
-                  >Sin ganador</h4>
-                  <h4 v-if="partidas.usuario_2==='' && partidas.participantes.indexOf(user.uid) === 1"
-                  >Sin ganador</h4>
+                  <h6 style="text-align:right;  color: #344093;"   v-if="partidas.usuario_1==='' && partidas.participantes.indexOf(user.uid) === 0"
+                  >Sin ganador</h6>
+                  <h6 style="text-align:right;  color: #344093;"  v-if="partidas.usuario_2==='' && partidas.participantes.indexOf(user.uid) === 1"
+                  >Sin ganador</h6>
                 </div>
 
               </div>
               <h4 class="text-dark">{{partidas.ganador_nombre}}</h4>
               <br>
-              <strong class="text-dark">Player 1: </strong> {{partida.name[0]}}
+              <strong class="text-dark">Jugador 1: </strong> {{partida.name[0]}}
               <br>
-              <strong class="text-dark">Player 2: </strong> {{partidas.name[1]?partidas.name[1]:'Sin Retador'}}
+              <strong class="text-dark">Jugador 2: </strong> {{partidas.name[1]?partidas.name[1]:'Sin Retador'}}
+              <br>
               <div class="btn-group">
                 <button
                   class="btn mb-2 btn-outline-warning btn-sm "
@@ -57,19 +58,22 @@
                   v-if="partidas.usuario_1==='' || partidas.usuario_2===''"
                   class="col"
                 >
-                  <h4  v-if="partidas.usuario_1==='' && partidas.participantes.indexOf(user.uid) === 0"
-                  >Sin ganador</h4>
-                  <h4 v-if="partidas.usuario_2==='' && partidas.participantes.indexOf(user.uid) === 1"
-                  >Sin ganador</h4>
+
+                  <h6  style="text-align:right;  color: #344093;" v-if="partidas.usuario_1==='' && partidas.participantes.indexOf(user.uid) === 0"
+                  >Sin ganador</h6>
+                  <h6 style="text-align:right;  color: #344093;"  v-if="partidas.usuario_2==='' && partidas.participantes.indexOf(user.uid) === 1"
+                  >Sin ganador</h6>
                 </div>
 
               </div>
               <h4 class="text-dark">{{partidas.ganador_nombre}}</h4>
               <br>
-              <strong class="text-dark">Player 1: </strong> {{partida.name[0]}}
+              <strong class="text-dark">Jugador 1: </strong> {{partida.name[0]}}
               <br>
-              <strong class="text-dark">Player 2: </strong> {{partidas.name[1]?partidas.name[1]:'Sin Retador'}}
+              <strong class="text-dark">Jugador 2: </strong> {{partidas.name[1]?partidas.name[1]:'Sin Retador'}}
+<br>
               <div class="btn-group">
+
                 <button
                   class="btn mb-2 btn-outline-warning btn-sm "
                   :class="partidas.name.length===1?'pulse':''"

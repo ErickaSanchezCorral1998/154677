@@ -1,6 +1,6 @@
 <template>
  <section class="formulario">
-    <h3 class="title"><strong>WANNA<br>PLAY?</strong></h3>
+    <h3 class="title"><strong>¿QUIERES<br>JUGAR?</strong></h3>
 
     <div class="col mb-3">
       <a class="subtitle text-center text-light">
@@ -8,9 +8,9 @@
       </a>
     </div>
     <div class="col">
-      <small class="text-light">Name:</small>
+      <small class="text-light">Nombre:</small>
       <input class="form-control mb-3" name="email" type="email" placeholder="E-mail" v-model="user.email" @keypress="showError=false">
-      <small class="text-light">Password</small>
+      <small class="text-light">Contraseña</small>
       <input class="form-control mb-3" name="password" type="password" placeholder="********" v-model="user.password" @keypress.enter="login" @keypress="showError=false">
 
       <!-- Handler templating -->
@@ -51,7 +51,7 @@
       </alerts-component>
       <div class="row">
         <div class="col">
-          <button class="btn btn_success btn-block btn-black btn-dark" @click="login">Login</button>
+          <button class="btn btn_success btn-block btn-black btn-dark" @click="login">Iniciar Sesión</button>
         </div>
 
       </div>
@@ -60,7 +60,7 @@
 
     </div>
     <div class="col">
-      <button class="btn btn-gray sign-up" @click="signup"><small class="text-light">Don't have an account?</small></button>
+      <button class="btn btn-gray sign-up" @click="signup"><small class="text-light">¿No tiene una cuenta?</small></button>
 
     </div>
 

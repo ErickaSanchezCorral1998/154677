@@ -1,7 +1,7 @@
 <template>
   <section class="section">
 
-  <h4>EDIT PROFILE</h4>
+  <h4>EDITAR PERFIL</h4>
         <a class="subtitle text-center">
     <img class="imgperfil" :src="user.photo">
     <h6 class="title profiletitle"> {{user&&user.nombre?user.nombre:'Sin Nombre'}}</h6>
@@ -10,11 +10,11 @@
     <div class="col">
 
       <br>
-      <small class="small">Name:</small>
+      <small class="small">Nombre:</small>
       <input class="form-control mb-2" name="name" type="text" placeholder="Name" v-model="user.nombre">
 
       <!--<input class="form-control mb-3" name="email" type="email" placeholder="E-mail" v-model="user.email">-->
-      <small class="small">Url Picture:</small>
+      <small class="small">Url Foto:</small>
       <input placeholder="Ex: http://pic.com" class="form-control mb-2 " type="text" v-model="user.photo">
 
     </div>
@@ -33,10 +33,10 @@
         <div class="form-group mb-2">
       <div class="row">
         <div class="col">
-          <button class="btn btn-update" @click="updateProfile"><small><strong class="strong">UPDATE</strong></small></button>
+          <button class="btn btn-update" @click="updateProfile"><small><strong class="strong">ACTUALIZAR</strong></small></button>
 <br>
 <br>
-        <button class="btn" @click="logout"><small><strong class="strong">LOG OUT</strong></small></button>
+        <button class="btn" @click="logout"><small><strong class="strong">CERRAR SESIÓN</strong></small></button>
         </div>
 
       </div>

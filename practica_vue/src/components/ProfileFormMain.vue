@@ -12,7 +12,7 @@
     </a>
   </div>
   <router-link :to="{name:'profile'}">
-<button class="btn btn-edit editar">Edit</button>
+<button class="btn btn-edit editar">Editar</button>
   </router-link>
 
   </section>
