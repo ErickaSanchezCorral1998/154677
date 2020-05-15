@@ -17,29 +17,15 @@
                 <div class="col">
 
                 </div>
-                <div class="col">
-                  <h4 v-if="partidas.participantes.includes(user.uid)">⭐</h4>
-                </div>
+
                 <div
                   v-if="partidas.usuario_1==='' || partidas.usuario_2===''"
                   class="col"
                 >
                   <h4  v-if="partidas.usuario_1==='' && partidas.participantes.indexOf(user.uid) === 0"
-                  >Usuario</h4>
+                  >Sin ganador</h4>
                   <h4 v-if="partidas.usuario_2==='' && partidas.participantes.indexOf(user.uid) === 1"
-                  >Usuario</h4>
-                </div>
-                <div
-                  v-if="partidas.usuario_1===''"
-                  class="col"
-                >
-                  <h4 >Usuario 1</h4>
-                </div>
-                <div
-                  v-if="partidas.usuario_2===''"
-                  class="col"
-                >
-                  <h4 >Usuario 2</h4>
+                  >Sin ganador</h4>
                 </div>
               </div>
               <h4 class="text-dark">{{partidas.ganador_nombre}}</h4>
@@ -51,7 +37,7 @@
                 <button
                   class="btn mb-2 btn-outline-warning btn-sm "
                   :class="partidas.name.length===1?'pulse':''"
-                  @click="$router.push({name:'partidas',params:{no_partida:partidas.id}}).catch(err => {})"
+                  @click="$router.push({name:'partida',params:{no_partida:partidas.id}}).catch(err => {})"
                 >
                   {{partidas.participantes.length===1&&!partidas.participantes.includes(user.uid)  ?'Retar':'Ver'}}
                 </button>
@@ -71,9 +57,7 @@
                 <div class="col">
 
                 </div>
-                <div class="col">
-                  <h4 v-if="partidas.participantes.includes(user.uid)">⭐</h4>
-                </div>
+
                 <div
                   v-if="partidas.usuario_1==='' || partidas.usuario_2===''"
                   class="col"
@@ -83,18 +67,7 @@
                   <h4 v-if="partidas.usuario_2==='' && partidas.participantes.indexOf(user.uid) === 1"
                   >Usuario</h4>
                 </div>
-                <div
-                  v-if="partidas.usuario_1===''"
-                  class="col"
-                >
-                  <h4 >Usuario 1</h4>
-                </div>
-                <div
-                  v-if="partidas.usuario_2===''"
-                  class="col"
-                >
-                  <h4 >Usuario 2</h4>
-                </div>
+
               </div>
               <h4 class="text-dark">{{partidas.ganador_nombre}}</h4>
               <br>
@@ -105,7 +78,7 @@
                 <button
                   class="btn mb-2 btn-outline-warning btn-sm "
                   :class="partidas.name.length===1?'pulse':''"
-                  @click="$router.push({name:'partidas',params:{no_partida:partidas.id}}).catch(err => {})"
+                  @click="$router.push({name:'partida',params:{no_partida:partidas.id}}).catch(err => {})"
                 >
                   {{partidas.participantes.length===1&&!partidas.participantes.includes(user.uid)  ?'Retar':'Ver'}}
                 </button>

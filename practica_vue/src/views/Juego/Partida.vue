@@ -30,8 +30,9 @@
     <!--<-h1 class="tituloJuego">{{$route.params.no_partida.replace('-',' ')}}</h1>-->
       <div class="row row-fluid">
         <div class="col col-md-12">
+         <h3 class="text-dark"> {{partida.name[0]}} vs {{partida.name[1]}}</h3>
         <!--&& user.uid!=partida.participantes[0]" -->
-          <button  v-if="!partida.name[1]"  class="btn" @click="retar">💰</button>
+          <button  v-if="!partida.name[1] && !partida.participantes.includes(user.uid)"  class="btn mb-2 btn-warning text-white" @click="retar">Retar</button>
         </div>
       </div>
       <div class="row mr-3">
@@ -143,7 +144,7 @@ export default {
         'usuario_1': '',
         'usuario_2': '',
         'ganador': ' ',
-        contrincante: '',
+        contrincante: '1',
         retador: uid,
         created_at: now,
         completed: false
@@ -166,8 +167,10 @@ export default {
       // eslint-disable-next-line no-unused-vars
       let uid = this.user.uid
       // Escribe en la base de datos
+
       this.partida.name.push(this.user.displayName == null ? 'Usuario' : this.user.displayName)
       this.partida.participantes.push(this.user.uid)
+      this.partida.contrincante = this.user.uid
       partidas.doc(this.$route.params.no_partida).update(this.partida)
     },
     getOpcion (opcion) {
