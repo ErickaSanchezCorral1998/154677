@@ -1,24 +1,40 @@
 <template>
   <section class="section">
 
-  <h4>EDITAR PERFIL</h4>
-        <a class="subtitle text-center">
-    <img class="imgperfil" :src="user.photo">
-    <h6 class="title profiletitle"> {{user&&user.nombre?user.nombre:'Sin Nombre'}}</h6>
-  </a>
-    <alerts-component v-if="showError" :message="errorMessage" :code="errorCode"></alerts-component>
+    <h4>EDITAR PERFIL</h4>
+    <a class="subtitle text-center">
+      <img
+        class="imgperfil"
+        :src="user.photo"
+      >
+      <h6 class="title profiletitle"> {{user&&user.nombre?user.nombre:'Sin Nombre'}}</h6>
+    </a>
+    <alerts-component
+      v-if="showError"
+      :message="errorMessage"
+      :code="errorCode"
+    ></alerts-component>
     <div class="col">
 
       <br>
       <small class="small">Nombre:</small>
-      <input class="form-control mb-2" name="name" type="text" placeholder="Name" v-model="user.nombre">
-
-      <!--<input class="form-control mb-3" name="email" type="email" placeholder="E-mail" v-model="user.email">-->
+      <input
+        class="form-control mb-2"
+        name="name"
+        type="text"
+        placeholder="Name"
+        v-model="user.nombre"
+      >
       <small class="small">Url Foto:</small>
-      <input placeholder="Ex: http://pic.com" class="form-control mb-2 " type="text" v-model="user.photo">
+      <input
+        placeholder="Ex: http://pic.com"
+        class="form-control mb-2 "
+        type="text"
+        v-model="user.photo"
+      >
 
     </div>
-        <div class="form-group mb-3">
+    <div class="form-group mb-3">
       <div class="row">
       </div>
     </div>
@@ -30,19 +46,25 @@
 
       </div>
     </div>
-        <div class="form-group mb-2">
+    <div class="form-group mb-2">
       <div class="row">
         <div class="col">
-          <button class="btn btn-update" @click="updateProfile"><small><strong class="strong">ACTUALIZAR</strong></small></button>
-<br>
-<br>
-        <button class="btn" @click="logout"><small><strong class="strong">CERRAR SESIÓN</strong></small></button>
+          <button
+            class="btn btn-update"
+            @click="updateProfile"
+          ><small><strong class="strong">ACTUALIZAR</strong></small></button>
+          <br>
+          <br>
+          <button
+            class="btn"
+            @click="logout"
+          ><small><strong class="strong">CERRAR SESIÓN</strong></small></button>
         </div>
 
       </div>
     </div>
 
-</section>
+  </section>
 </template>
 <script lang="js">
 import Auth from '@/config/auth.js'
@@ -100,6 +122,6 @@ export default {
   }
 }
 </script>
-<style lang="scss">@import "./recursos/css/profile.css";
-
+<style lang="scss">
+@import "./recursos/css/profile.css";
 </style>

@@ -1,5 +1,5 @@
 <template>
- <section class="formulario">
+  <section class="formulario">
     <h3 class="title"><strong>¿QUIERES<br>JUGAR?</strong></h3>
 
     <div class="col mb-3">
@@ -8,50 +8,54 @@
       </a>
     </div>
     <div class="col">
-      <small class="text-light">Nombre:</small>
-      <input class="form-control mb-3" name="email" type="email" placeholder="E-mail" v-model="user.email" @keypress="showError=false">
-      <small class="text-light">Contraseña</small>
-      <input class="form-control mb-3" name="password" type="password" placeholder="********" v-model="user.password" @keypress.enter="login" @keypress="showError=false">
 
-      <!-- Handler templating -->
-      <!--{{user.password}}-->
-      <!--{{1+1}}-->
+      <small class="text-light">Nombre:</small>
+      <!--Input del formulatio para obtener el emal-->
+      <input
+        class="form-control mb-3"
+        name="email"
+        type="email"
+        placeholder="E-mail"
+        v-model="user.email"
+        @keypress="showError=false"
+      >
+      <!--Fin Input del formulatio para obtener el emal-->
+      <!--Input del formulatio para obtener la contraseña-->
+      <small class="text-light">Contraseña</small>
+      <input
+        class="form-control mb-3"
+        name="password"
+        type="password"
+        placeholder="********"
+        v-model="user.password"
+        @keypress.enter="login"
+        @keypress="showError=false"
+      >
+      <!--Fin Input del formulatio para obtener la contraseña-->
 
     </div>
     <div class="form-group mb-3">
       <div class="row">
-        <!-- <div class="col">
-          <div class="row">
-            <div class="col-md-2">
-              <input type="checkbox" />
-            </div>
-            <div class="col">
-              <small>Remember me</small>
-            </div>
-          </div>
 
-        </div>-->
-        <!--<div class="col">
-          <small>Forgot password?</small>
-        </div>-->
       </div>
     </div>
     <div class="form-group mb-2">
-      <!--<div
-        class="alert alert-danger"
-        role="alert"
-        id="alert-error"
+      <!--Inicio de componente que muestra las alertas-->
+      <alerts-component
+        v-if="showError"
+        :message="errorMessage"
+        :code="errorCode"
       >
-        <strong></strong> <a
-          href="#"
-          class="alert-link"
-        >E-mail or password are incorrect </a> Try again.
-      </div>-->
-      <alerts-component v-if="showError" :message="errorMessage" :code="errorCode">
       </alerts-component>
+      <!--Fin de componente de alertas-->
       <div class="row">
         <div class="col">
-          <button class="btn btn_success btn-block btn-black btn-dark" @click="login">Iniciar Sesión</button>
+          <!--Boton que manda llamar metodo de inicio de sesion-->
+          <button
+            class="btn btn_success btn-block btn-black btn-dark"
+            @click="login"
+          >Iniciar Sesión</button>
+          <!--Boton que manda llamar metodo de inicio de sesion-->
         </div>
 
       </div>
@@ -60,23 +64,30 @@
 
     </div>
     <div class="col">
-      <button class="btn btn-gray sign-up" @click="signup"><small class="text-light">¿No tiene una cuenta?</small></button>
+      <!--Boton que lleva a la pantalla de registro-->
+      <button
+        class="btn btn-gray sign-up"
+        @click="signup"
+      ><small class="text-light">¿No tiene una cuenta?</small></button>
+      <!--Fin Boton que lleva a la pantalla de registro-->
 
     </div>
 
   </section>
 </template>
 <script lang="js">
+// importar la configuracion de autenticacion
 import Auth from '@/config/auth.js'
 // importar el componenete alerts
 import AlertsComponent from './Helpers/Alerts'
+
 export default {
   name: 'LoginForm',
   components: {
     AlertsComponent// Lo registramos como componente
   },
   data () {
-    // Variables y metodos(funciones que vamos  a utilizar)
+    //Como se muestra la informacion en un inicio
     return {
       showError: false,
       errorMessage: '',
@@ -87,25 +98,10 @@ export default {
       }
     }
   },
-  beforeCreate () {
-    console.log('Estoy en un beforecreated')
-  },
-  created () {
-    console.log(`Estoy en un created ${this.user}`)
-  },
-  mounted () {
-    console.log(`Estoy en monted ${this.user}`)
-    console.log(`Estoy en  ${this.$route.name}`)// route acceder información
-  },
   methods: {
+    //metodo para hacer inicio de sesion
     login () {
-      // Esta variable es de uso local de nuestro método
-      /* let user = {
-        email: 'esto es local'
-      } */
-      // console.log('Soy un login')
-      // console.log('user local: ' + user.email)
-      // console.log('user from data:' + this.user.email)
+
       Auth.logIn(this.user).catch(error => {
         console.log(error.code, error.message)
         this.showError = true
@@ -113,6 +109,7 @@ export default {
         this.errorCode = error.code
       })
     },
+    //Lleva hacia la pantalla de registro
     signup () {
       setTimeout(() => {
         this.$router.push({ name: 'signup' })
