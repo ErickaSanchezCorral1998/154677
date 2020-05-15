@@ -7,7 +7,6 @@
       <label for="tab2">Disponibles</label>
       <section id="content1">
         <ul class="list-group">
-
             <li
               v-for="partidas in partidasPropias"
               :key="partidas.id"
@@ -15,9 +14,7 @@
             >
               <div class="row">
                 <div class="col">
-
                 </div>
-
                 <div
                   v-if="partidas.usuario_1==='' || partidas.usuario_2===''"
                   class="col"
@@ -27,6 +24,7 @@
                   <h4 v-if="partidas.usuario_2==='' && partidas.participantes.indexOf(user.uid) === 1"
                   >Sin ganador</h4>
                 </div>
+
               </div>
               <h4 class="text-dark">{{partidas.ganador_nombre}}</h4>
               <br>
@@ -47,7 +45,6 @@
       </section>
       <section id="content2">
            <ul class="list-group">
-
             <li
               v-for="partidas in partidasDisponibles"
               :key="partidas.id"
@@ -55,17 +52,15 @@
             >
               <div class="row">
                 <div class="col">
-
                 </div>
-
                 <div
                   v-if="partidas.usuario_1==='' || partidas.usuario_2===''"
                   class="col"
                 >
                   <h4  v-if="partidas.usuario_1==='' && partidas.participantes.indexOf(user.uid) === 0"
-                  >Usuario</h4>
+                  >Sin ganador</h4>
                   <h4 v-if="partidas.usuario_2==='' && partidas.participantes.indexOf(user.uid) === 1"
-                  >Usuario</h4>
+                  >Sin ganador</h4>
                 </div>
 
               </div>
@@ -88,19 +83,15 @@
       </section>
     </div>
   </div>
-
 </template>
-
 <script lang="js">
 import fireApp from '../../config/_firebase.js'
 import collect from 'collect.js'
 import moment from 'moment'
 import Auth from '@/config/auth'
 const partidas = fireApp.firestore().collection('juego-1')
-
 export default {
   name: 'PartidasDisponibles',
-
   beforeRouteEnter (to, from, next) {
     // next(async vm => {
     next(vm => {
@@ -160,7 +151,6 @@ export default {
       this.user = await Auth.getUser()
     },
     obtener () {
-
     },
     obtenerPartida (partida) {
       partidas.doc(partida).get().then((result) => {
@@ -182,9 +172,7 @@ export default {
         completed: false
       })
     }
-
   }
-
 }
 </script>
 <style lang="scss">

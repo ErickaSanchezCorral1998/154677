@@ -1,6 +1,5 @@
 <template >
 <section>
-
     <div class="container container3">
       <div>
       <div class="row">
@@ -12,12 +11,9 @@
               </center>
 <router-view></router-view>
         </div>
-
       </div>
       <!--juego-->
-
           </div>
-
       <div class="col-lg-3">
         <div class="row">
           <div class="col-lg-12 col-sm-12 pt" style="background-color:#fff;">
@@ -38,7 +34,6 @@
     </div>
     </section>
 </template>
-
 <script lang="js">
 import Auth from '@/config/auth.js'
 import ProfileFormMain from '@/components/ProfileFormMain'
@@ -49,11 +44,6 @@ import PartidasDisponibles from '@/components/Juego/PartidasDisponibles'
 const partidas = Firebase.firestore().collection('juego-1')
 export default {
   name: 'partidas',
-
-  components: {
-    PartidasDisponibles,
-    ProfileFormMain
-  },
   data () {
     return {
       moment,
@@ -64,19 +54,25 @@ export default {
       user: {}
     }
   },
+  components: {
+    PartidasDisponibles,
+    ProfileFormMain
+  },
   beforeCreate: function () {
     document.body.className = 'main'
   },
   beforeRouteEnter (to, from, next) {
     // next(async vm => {
-
     next(vm => {
+      vm.user = Auth.getUser()
+      vm.obtenerPartida(to.params.no_partida)
       /* vm.obtenerPartida(to.params.no_partida)
       // vm.user = await Auth.getUser()
       vm.$bind('user', Auth.getUser())
       vm.user = vm.obtenerUser()
       vm.$bind('partida', partida.doc(to.params.no_partida)) */
       // vm.user = Auth.getUser()
+      vm.partidas = []
       vm.$bind('partidas', partidas.doc(to.params.no_partida))
     })
   },
@@ -97,12 +93,12 @@ export default {
       handler (value) {
         this.user = Auth.getUser()
         this.coleccionDePartidas = []
+        this.$bind('partidasDisponilbes', partidas.where('completed', '==', false))
         this.$bind('partida', partidas.doc(value.no_partida))
       }
     }
   },
   methods: {
-
     async obtenerUser () {
       this.user = await Auth.getUser()
     },
