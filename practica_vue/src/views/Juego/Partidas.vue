@@ -49,6 +49,11 @@ import PartidasDisponibles from '@/components/Juego/PartidasDisponibles'
 const partidas = Firebase.firestore().collection('juego-1')
 export default {
   name: 'partidas',
+
+  components: {
+    PartidasDisponibles,
+    ProfileFormMain
+  },
   data () {
     return {
       moment,
@@ -59,10 +64,6 @@ export default {
       user: {}
     }
   },
-  components: {
-    PartidasDisponibles,
-    ProfileFormMain
-  },
   beforeCreate: function () {
     document.body.className = 'main'
   },
@@ -70,7 +71,6 @@ export default {
     // next(async vm => {
 
     next(vm => {
-      vm.obtenerPartida(to.params.no_partida)
       /* vm.obtenerPartida(to.params.no_partida)
       // vm.user = await Auth.getUser()
       vm.$bind('user', Auth.getUser())
